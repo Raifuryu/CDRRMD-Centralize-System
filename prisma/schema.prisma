@@ -1,0 +1,162 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Person {
+  id            Int                  @id @default(autoincrement())
+  firstName     String               @db.VarChar(255)
+  middleName    String?              @db.VarChar(255)
+  lastName      String               @db.VarChar(255)
+  extensionName String?              @db.VarChar(255)
+  office        Office               @relation(fields: [officeId], references: [id])
+  officeId      Int
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  phoneNumber   PersonPhoneNumber[]
+  emailAddress  PersonEmailAddress[]
+  personTag     PersonTag[]
+}
+
+model Office {
+  id         Int      @id @default(autoincrement())
+  barangay   Barangay @relation(fields: [barangayId], references: [id])
+  barangayId Int
+  name       String
+  acronym    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Person     Person[]
+}
+
+model PersonTag {
+  id        Int      @id @default(autoincrement())
+  person    Person   @relation(fields: [personId], references: [id])
+  personId  Int
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PersonPhoneNumber {
+  id        Int      @id @default(autoincrement())
+  person    Person   @relation(fields: [personId], references: [id])
+  personId  Int
+  number    String   @db.VarChar(255)
+  status    Status   @relation(fields: [statusId], references: [id])
+  statusId  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PersonEmailAddress {
+  id        Int      @id @default(autoincrement())
+  person    Person   @relation(fields: [personId], references: [id])
+  personId  Int
+  email     String   @db.VarChar(255)
+  status    Status   @relation(fields: [statusId], references: [id])
+  statusId  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tag {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(255)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  PersonTag PersonTag[]
+}
+
+model Status {
+  id           Int                  @id @default(autoincrement())
+  name         String
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  PhoneNumber  PersonPhoneNumber[]
+  EmailAddress PersonEmailAddress[]
+}
+
+model Municipality {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  City      City[]
+}
+
+model City {
+  id             Int          @id @default(autoincrement())
+  municipality   Municipality @relation(fields: [municipalityId], references: [id])
+  municipalityId Int
+  name           String
+  zipCode        String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  Barangay       Barangay[]
+}
+
+model Barangay {
+  id                     Int                      @id @default(autoincrement())
+  city                   City                     @relation(fields: [cityId], references: [id])
+  cityId                 Int
+  name                   String
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  Office                 Office[]
+  CriticalInfrastructure CriticalInfrastructure[]
+  Sitio                  Sitio[]
+}
+
+model Sitio {
+  id         Int      @id @default(autoincrement())
+  barangay   Barangay @relation(fields: [barangayId], references: [id])
+  barangayId Int
+  name       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Street     Street[]
+}
+
+model Street {
+  id          Int      @id @default(autoincrement())
+  sitio       Sitio    @relation(fields: [sitioId], references: [id])
+  sitioId     Int
+  houseNumber String
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Critical Infrastructure
+model CriticalInfrastructure {
+  id         Int      @id @default(autoincrement())
+  barangay   Barangay @relation(fields: [barangayId], references: [id])
+  barangayId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  name       String
+  longitude  String
+  latitude   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Category {
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  CriticalInfrastructure CriticalInfrastructure[]
+}
