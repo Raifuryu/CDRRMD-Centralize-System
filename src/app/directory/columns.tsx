@@ -120,11 +120,18 @@ export const columns: ColumnDef<Person>[] = [
       phoneNumber.flatMap(({ number }) => number).toString(),
     header: "Phone Number",
     cell: ({ row }) => {
-      return (
-        <a href={`tel:${row.getValue("phoneNumber")}`}>
-          {row.getValue("phoneNumber")}
-        </a>
-      );
+      return row.original.phoneNumber.map((e, index) => {
+        return (
+          <div key={index}>
+            <a
+              href={`tel:${e.number}`}
+              className={`${e.statusId === 2 ? "text-red-600" : ""}`}
+            >
+              {e.number}
+            </a>
+          </div>
+        );
+      });
     },
     enableSorting: false,
   },
@@ -134,11 +141,18 @@ export const columns: ColumnDef<Person>[] = [
       emailAddress.flatMap(({ email }) => email).toString(),
     header: "Email Address",
     cell: ({ row }) => {
-      return (
-        <a href={`tel:${row.getValue("emailAddress")}`}>
-          {row.getValue("emailAddress")}
-        </a>
-      );
+      return row.original.emailAddress.map((e, index) => {
+        return (
+          <div key={index}>
+            <a
+              href={`tel:${e.email}`}
+              className={`${e.statusId === 2 ? "text-red-600" : ""}`}
+            >
+              {e.email}
+            </a>
+          </div>
+        );
+      });
     },
     enableSorting: false,
   },
@@ -147,5 +161,10 @@ export const columns: ColumnDef<Person>[] = [
     accessorFn: ({ personTag }) =>
       personTag.map(({ tag }) => tag.name).toString(),
     header: "Tags",
+    cell: ({ row }) => {
+      return row.original.personTag.map((e, index) => {
+        return <div key={index}>{e.tag.name}</div>;
+      });
+    },
   },
 ];

@@ -4243,7 +4243,7 @@ async function main() {
   ];
 
   for (const numberData of numbersData) {
-    await prisma.phoneNumber.create({ data: numberData });
+    await prisma.personPhoneNumber.create({ data: numberData });
   }
 
   const emailAddressesData = [
@@ -5805,7 +5805,7 @@ async function main() {
   ];
 
   for (const emailAddressData of emailAddressesData) {
-    await prisma.emailAddress.create({ data: emailAddressData });
+    await prisma.personEmailAddress.create({ data: emailAddressData });
   }
 
   const tagsData = [
