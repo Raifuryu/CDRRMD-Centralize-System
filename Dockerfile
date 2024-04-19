@@ -5,6 +5,7 @@ FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
+COPY prisma ./
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
@@ -40,7 +41,7 @@ WORKDIR /app
 
 ENV NODE_ENV production
 ENV DATABASE_URL "mysql://Research&Planning:Planning_Forever_2022@192.168.1.69:3306/CDRRMD-cen-sys"
-ENV URL "http://localhost:3000"
+ENV URL "http://localhost:3001"
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -60,9 +61,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 910
+EXPOSE 3001
 
-ENV PORT 910
+ENV PORT 3001
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output

@@ -1,6 +1,30 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { PersonEmailAddress, PersonPhoneNumber } from "@prisma/client";
+import z from "zod";
+
+const personEmailAddressSchema = z.object({
+  id: z.number(),
+  personId: z.number(),
+  email: z.string(),
+  status: z.boolean(),
+  statusId: z.number(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+type PersonEmailAddress = z.infer<typeof personEmailAddressSchema>;
+
+const personPhoneNumberSchema = z.object({
+  id: z.number(),
+  personId: z.number(),
+  number: z.string(),
+  status: z.boolean(),
+  statusId: z.number(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+type PersonPhoneNumber = z.infer<typeof personPhoneNumberSchema>;
 
 export async function GET() {
   const data = await prisma.person.findMany({
@@ -21,7 +45,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const body = await request.json();
-
+  console.log(body);
   const status = await prisma.person.create({
     data: {
       firstName: body.firstName,
@@ -41,6 +65,7 @@ export async function POST(request: Request) {
           data: {
             personId: personId,
             number: e.number,
+            statusId: e.status === true ? 1 : 2,
           },
         });
     });
@@ -112,10 +137,16 @@ export async function PUT(request: Request) {
         // If the index is within the existing numberData length, update the number
         if (index < numberData.length) {
           const existingNumber = numberData[index];
-          if (existingNumber.number !== phoneNumber.number) {
+          if (
+            existingNumber.number !== phoneNumber.number ||
+            existingNumber.statusId !== (phoneNumber.status === true ? 1 : 2)
+          ) {
             await prisma.personPhoneNumber.update({
               where: { id: existingNumber.id },
-              data: { number: phoneNumber.number },
+              data: {
+                number: phoneNumber.number,
+                statusId: phoneNumber.status === true ? 1 : 2,
+              },
             });
             updated = true;
           }
@@ -129,6 +160,7 @@ export async function PUT(request: Request) {
               data: {
                 personId: body.id,
                 number: phoneNumber.number,
+                statusId: phoneNumber.status === true ? 1 : 2,
               },
             });
           updated = true;
@@ -141,15 +173,18 @@ export async function PUT(request: Request) {
   if (numberData.length > body.phoneNumber.length) {
     const numbersToDelete = numberData.slice(body.phoneNumber.length);
     await Promise.all(
-      numbersToDelete.map(async (number) => {
-        await prisma.personPhoneNumber.update({
-          where: { id: number.id },
-          data: {
-            statusId: 2,
-          },
-        });
-        updated = true;
-      })
+      numbersToDelete.map(
+        async ({ id, statusId }: { id: number; statusId: number }) => {
+          if (statusId === 2)
+            await prisma.personPhoneNumber.update({
+              where: { id: id },
+              data: {
+                statusId: 2,
+              },
+            });
+          updated = true;
+        }
+      )
     );
   }
 
@@ -165,10 +200,16 @@ export async function PUT(request: Request) {
         // If the index is within the existing numberData length, update the number
         if (index < emailData.length) {
           const existingEmail = emailData[index];
-          if (existingEmail.email !== emailAddress.email) {
+          if (
+            existingEmail.email !== emailAddress.email ||
+            existingEmail.statusId !== (emailAddress.status === true ? 1 : 2)
+          ) {
             await prisma.personEmailAddress.update({
               where: { id: existingEmail.id },
-              data: { email: emailAddress.email },
+              data: {
+                email: emailAddress.email,
+                statusId: emailAddress.status === true ? 1 : 2,
+              },
             });
             updated = true;
           }
@@ -182,6 +223,7 @@ export async function PUT(request: Request) {
               data: {
                 personId: body.id,
                 email: emailAddress.email,
+                statusId: emailAddress.status === true ? 1 : 2,
               },
             });
           updated = true;
@@ -194,9 +236,9 @@ export async function PUT(request: Request) {
   if (emailData.length > body.emailAddress.length) {
     const emailToDelete = emailData.slice(body.emailAddress.length);
     await Promise.all(
-      emailToDelete.map(async (email) => {
+      emailToDelete.map(async ({ id }: { id: number }) => {
         await prisma.personEmailAddress.update({
-          where: { id: email.id },
+          where: { id: id },
           data: {
             statusId: 2,
           },
@@ -241,11 +283,10 @@ export async function PUT(request: Request) {
   // Delete extra tag tag if present
   if (personTagData.length > body.tag.length) {
     const tagToDelete = personTagData.slice(body.tag.length);
-    console.log(tagToDelete);
     await Promise.all(
-      tagToDelete.map(async (tag) => {
+      tagToDelete.map(async ({ id }: { id: number }) => {
         await prisma.personTag.delete({
-          where: { id: tag.id },
+          where: { id: id },
         });
         updated = true;
       })

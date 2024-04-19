@@ -4,7 +4,7 @@ import z from "zod";
 
 import { revalidatePerson } from "@/lib/action";
 
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, X } from "lucide-react";
 
 import { useToast } from "@/components/ui/use-toast";
 
@@ -41,13 +41,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+
+import { useState } from "react";
+
 import React from "react";
 
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -93,10 +97,13 @@ const formSchema = z.object({
   officeId: z.number().int({ message: "Office is required" }),
   phoneNumber: z.array(
     z.object({
-      number: z.string().min(10, { message: "Phone Number is required" }),
+      number: z.string(),
+      status: z.boolean().default(true),
     })
   ),
-  emailAddress: z.array(z.object({ email: z.string() })),
+  emailAddress: z.array(
+    z.object({ email: z.string(), status: z.boolean().default(true) })
+  ),
   tag: z.array(z.any()),
 });
 
@@ -210,9 +217,9 @@ export function DataTable<TData, TValue>({
       middleName: "",
       lastName: "",
       extensionName: "",
-      officeId: 0,
-      phoneNumber: [{ number: "" }],
-      emailAddress: [{ email: "" }],
+      officeId: 1,
+      phoneNumber: [{ number: "", status: true }],
+      emailAddress: [{ email: "", status: true }],
       tag: [],
     },
   });
@@ -267,9 +274,9 @@ export function DataTable<TData, TValue>({
       middleName: "",
       lastName: "",
       extensionName: "",
-      officeId: 0,
-      phoneNumber: [{ number: "" }],
-      emailAddress: [{ email: "" }],
+      officeId: 1,
+      phoneNumber: [{ number: "", status: true }],
+      emailAddress: [{ email: "", status: true }],
       tag: [],
     });
   };
@@ -284,11 +291,12 @@ export function DataTable<TData, TValue>({
         extensionName: selectedData?.extensionName,
         officeId: selectedData?.officeId,
         phoneNumber: selectedData?.phoneNumber.map((e: PersonPhoneNumber) => {
-          return { number: e.number };
+          // update status for later
+          return { number: e.number, status: e.statusId === 1 ? true : false };
         }),
         emailAddress: selectedData?.emailAddress.map(
           (e: PersonEmailAddress) => {
-            return { email: e.email };
+            return { email: e.email, status: e.statusId === 1 ? true : false };
           }
         ),
         tag: selectedData?.personTag.map(
@@ -302,9 +310,9 @@ export function DataTable<TData, TValue>({
         middleName: "",
         lastName: "",
         extensionName: "",
-        officeId: 0,
-        phoneNumber: [{ number: "" }],
-        emailAddress: [{ email: "" }],
+        officeId: 1,
+        phoneNumber: [{ number: "", status: true }],
+        emailAddress: [{ email: "", status: true }],
         tag: [],
       });
       setFormState("POST");
@@ -318,7 +326,9 @@ export function DataTable<TData, TValue>({
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">Columns Filter</Button>
+                <Button variant="outline" disabled>
+                  Columns Filter
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 {table
@@ -339,6 +349,27 @@ export function DataTable<TData, TValue>({
                   ))}
               </DropdownMenuContent>
             </DropdownMenu>
+            <Button
+              className="ml-2"
+              variant="destructive"
+              onClick={() => {
+                setGlobalFilter("");
+                setColumnFilters([]);
+                setRowSelection({});
+                form.reset({
+                  firstName: "",
+                  middleName: "",
+                  lastName: "",
+                  extensionName: "",
+                  officeId: 1,
+                  phoneNumber: [{ number: "", status: true }],
+                  emailAddress: [{ email: "", status: true }],
+                  tag: [],
+                });
+              }}
+            >
+              Clear Filter
+            </Button>
           </div>
 
           <div className="w-1/4">
@@ -391,7 +422,6 @@ export function DataTable<TData, TValue>({
                 {table.getAllColumns().map((e) => (
                   <TableCell key={e.id}>
                     <Input
-                      placeholder={"Filter " + e.id}
                       value={
                         (table.getColumn(e.id)?.getFilterValue() as string) ??
                         ""
@@ -455,19 +485,8 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
       <div className="rounded-2xl border p-4 w-1/4 ml-2">
+        <div>Add Form</div>
         <div>
-          {/* <div className="flex items-center space-x-2 m-2">
-            <Label htmlFor="formState-mode">Update Data</Label>
-            <Switch
-              id="formState-mode"
-              checked={isPost}
-              onCheckedChange={() => {
-                setIsPost(!isPost),
-                  isPost ? setFormState("POST") : setFormState("PUT");
-              }}
-            />
-            <Label htmlFor="formState-mode">Submit Data</Label>
-          </div> */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
               <FormField
@@ -636,22 +655,34 @@ export function DataTable<TData, TValue>({
                           }}
                         />
                       </span>
-
-                      <Button
-                        className=" mx-2 rounded-3xl"
-                        size="icon"
-                        variant="destructive"
-                        onClick={() => removePhoneNumberField(index)}
-                      >
-                        <Minus className="h-4 w-4" />
-                      </Button>
+                      <FormField
+                        control={form.control}
+                        name={`phoneNumber.${index}.status`}
+                        render={({ field }) => (
+                          <FormItem className="ml-2 flex flex-col items-center justify-between">
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <FormLabel
+                              className={`text-xs ${
+                                !field.value ? "text-red-500" : ""
+                              }`}
+                            >
+                              {field.value ? "Active" : "Inactive"}
+                            </FormLabel>
+                          </FormItem>
+                        )}
+                      />
                     </div>
                   );
                 })}
                 <Button
                   // className="w-1/2"
                   onClick={(e) => {
-                    appendPhoneNumberField({ number: "" });
+                    appendPhoneNumberField({ number: "", status: true });
                     e.preventDefault();
                   }}
                 >
@@ -682,21 +713,40 @@ export function DataTable<TData, TValue>({
                         />
                       </span>
 
-                      <Button
+                      <FormField
+                        control={form.control}
+                        name={`emailAddress.${index}.status`}
+                        render={({ field }) => (
+                          <FormItem className="ml-2 flex flex-col items-center justify-between">
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <FormLabel className="text-xs">
+                              {field.value ? "Active" : "Inactive"}
+                            </FormLabel>
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* <Button
                         className=" mx-2 rounded-3xl"
                         size="icon"
-                        variant="destructive"
+                        variant="ghost"
                         onClick={() => removeEmailAddressField(index)}
+                        disabled
                       >
-                        <Minus className="h-4 w-4" />
-                      </Button>
+                        <X className="h-4 w-4 text-red-500" />
+                      </Button> */}
                     </div>
                   );
                 })}
                 <Button
                   // className="w-1/4"
                   onClick={(e) => {
-                    appendEmailAddressField({ email: "" });
+                    appendEmailAddressField({ email: "", status: true });
                     e.preventDefault();
                   }}
                 >
@@ -724,7 +774,12 @@ export function DataTable<TData, TValue>({
                   }}
                 />
               </div>
-              <Button className="w-full" type="submit">
+              <Button
+                className={`w-full ${
+                  formState === "POST" ? "bg-green-600" : "bg-sky-600"
+                }`}
+                type="submit"
+              >
                 {formState === "POST" ? "Submit" : "Update"}
               </Button>
             </form>
