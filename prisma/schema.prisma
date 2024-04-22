@@ -29,14 +29,38 @@ model Person {
 }
 
 model Office {
-  id         Int      @id @default(autoincrement())
-  barangay   Barangay @relation(fields: [barangayId], references: [id])
-  barangayId Int
-  name       String
-  acronym    String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  Person     Person[]
+  id                 Int                  @id @default(autoincrement())
+  barangay           Barangay             @relation(fields: [barangayId], references: [id])
+  barangayId         Int
+  name               String
+  acronym            String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  person             Person[]
+  officePhoneNumber  OfficePhoneNumber[]
+  OfficeEmailAddress OfficeEmailAddress[]
+}
+
+model OfficePhoneNumber {
+  id        Int      @id @default(autoincrement())
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  number    String   @db.VarChar(255)
+  status    Status   @relation(fields: [statusId], references: [id])
+  statusId  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OfficeEmailAddress {
+  id        Int      @id @default(autoincrement())
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  email     String   @db.VarChar(255)
+  status    Status   @relation(fields: [statusId], references: [id])
+  statusId  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PersonTag {
@@ -80,12 +104,14 @@ model Tag {
 }
 
 model Status {
-  id           Int                  @id @default(autoincrement())
-  name         String
-  createdAt    DateTime             @default(now())
-  updatedAt    DateTime             @updatedAt
-  PhoneNumber  PersonPhoneNumber[]
-  EmailAddress PersonEmailAddress[]
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  PhoneNumber        PersonPhoneNumber[]
+  EmailAddress       PersonEmailAddress[]
+  OfficePhoneNumber  OfficePhoneNumber[]
+  OfficeEmailAddress OfficeEmailAddress[]
 }
 
 model Municipality {

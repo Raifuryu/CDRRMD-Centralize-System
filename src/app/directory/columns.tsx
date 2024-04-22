@@ -82,7 +82,7 @@ export const columns: ColumnDef<Person>[] = [
   },
   {
     accessorKey: "extensionName",
-    header: "Extension Name",
+    header: "Ext. Name",
   },
   {
     accessorKey: "office",
@@ -147,16 +147,17 @@ export const columns: ColumnDef<Person>[] = [
   },
   {
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
+    // header: ({ table }) => (
+    //   <Checkbox
+    //     checked={
+    //       table.getIsAllPageRowsSelected() ||
+    //       (table.getIsSomePageRowsSelected() && "indeterminate")
+    //     }
+    //     onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //     aria-label="Select all"
+    //   />
+    // ),
+    header: "Select",
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}

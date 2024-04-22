@@ -51,7 +51,6 @@ import React from "react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -224,14 +223,11 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const {
-    fields: phoneNumberField,
-    append: appendPhoneNumberField,
-    remove: removePhoneNumberField,
-  } = useFieldArray({
-    name: "phoneNumber",
-    control: form.control,
-  });
+  const { fields: phoneNumberField, append: appendPhoneNumberField } =
+    useFieldArray({
+      name: "phoneNumber",
+      control: form.control,
+    });
 
   const {
     fields: emailAddressField,
@@ -326,9 +322,7 @@ export function DataTable<TData, TValue>({
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" disabled>
-                  Columns Filter
-                </Button>
+                <Button variant="outline">Columns Filter</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 {table
@@ -392,25 +386,48 @@ export function DataTable<TData, TValue>({
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead key={header.id}>
-                        {header.isPlaceholder ? null : (
-                          <div
-                            {...{
-                              className: header.column.getCanSort()
-                                ? "cursor-pointer select-none"
-                                : "",
-                              onClick: header.column.getToggleSortingHandler(),
-                            }}
-                          >
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
+                        <>
+                          <div className="flex justify-center">
+                            {header.isPlaceholder ? null : (
+                              <div
+                                {...{
+                                  className: header.column.getCanSort()
+                                    ? "cursor-pointer select-none m-2"
+                                    : "",
+                                  onClick:
+                                    header.column.getToggleSortingHandler(),
+                                }}
+                              >
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                                {{
+                                  asc: <ArrowUp className="ml-2 h-4 w-4" />,
+                                  desc: <ArrowDown className="ml-2 h-4 w-4" />,
+                                }[header.column.getIsSorted() as string] ??
+                                  null}
+                              </div>
                             )}
-                            {{
-                              asc: <ArrowUp className="ml-2 h-4 w-4" />,
-                              desc: <ArrowDown className="ml-2 h-4 w-4" />,
-                            }[header.column.getIsSorted() as string] ?? null}
                           </div>
-                        )}
+                          {header.column.getCanFilter() ? (
+                            <div className="m-2">
+                              <Input
+                                value={
+                                  (table
+                                    .getColumn(header.id)
+                                    ?.getFilterValue() as string) ?? ""
+                                }
+                                onChange={(event) =>
+                                  table
+                                    .getColumn(header.id)
+                                    ?.setFilterValue(event.target.value)
+                                }
+                                className="max-w-sm"
+                              />
+                            </div>
+                          ) : null}
+                        </>
                       </TableHead>
                     );
                   })}
@@ -418,7 +435,7 @@ export function DataTable<TData, TValue>({
               ))}
             </TableHeader>
             <TableBody>
-              <TableRow>
+              {/* <TableRow>
                 {table.getAllColumns().map((e) => (
                   <TableCell key={e.id}>
                     <Input
@@ -435,7 +452,7 @@ export function DataTable<TData, TValue>({
                     />
                   </TableCell>
                 ))}
-              </TableRow>
+              </TableRow> */}
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
@@ -485,7 +502,7 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
       <div className="rounded-2xl border p-4 w-1/4 ml-2">
-        <div>Add Form</div>
+        <div className="flex justify-center">Add Form</div>
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>

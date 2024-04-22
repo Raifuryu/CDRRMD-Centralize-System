@@ -155,7 +155,7 @@ export async function PUT(request: Request) {
           const exist = await prisma.personPhoneNumber.count({
             where: { personId: body.id, number: phoneNumber.number },
           });
-          if (!exist)
+          if (!exist || phoneNumber.number.trim() != "")
             await prisma.personPhoneNumber.create({
               data: {
                 personId: body.id,
