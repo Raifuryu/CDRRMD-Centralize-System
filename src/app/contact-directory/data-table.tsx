@@ -72,7 +72,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-import { Check, ChevronsUpDown, Minus, Plus } from "lucide-react";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import MultiSelectFormField from "@/components/ui/multi-select";
 
 import { cn } from "@/lib/utils";
@@ -149,13 +149,15 @@ export function DataTable<TData, TValue>({
   officeData: OfficeData[];
   tagData: TagData[];
 }) {
+  const [showPersonTable, setShowTablePerson] = React.useState(true);
+
   // data table
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = React.useState("");
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
   // form
   const { toast } = useToast();
@@ -229,14 +231,11 @@ export function DataTable<TData, TValue>({
       control: form.control,
     });
 
-  const {
-    fields: emailAddressField,
-    append: appendEmailAddressField,
-    remove: removeEmailAddressField,
-  } = useFieldArray({
-    name: "emailAddress",
-    control: form.control,
-  });
+  const { fields: emailAddressField, append: appendEmailAddressField } =
+    useFieldArray({
+      name: "emailAddress",
+      control: form.control,
+    });
 
   const handleSubmit = async () => {
     const res = await fetch("/api/directory", {
@@ -318,8 +317,12 @@ export function DataTable<TData, TValue>({
   return (
     <div className="flex h-full m-5">
       <div className="rounded-2xl border p-4 w-3/4 mr-2">
-        <div className="flex justify-between mb-3">
+        <div className="flex justify-between">
           <div>
+            <Switch
+              checked={showPersonTable}
+              onClick={() => setShowTablePerson(!showPersonTable)}
+            />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline">Columns Filter</Button>
@@ -378,7 +381,7 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
 
-        <div className="rounded-md border">
+        <div className="">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

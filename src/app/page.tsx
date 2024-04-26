@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,34 +7,46 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <button>
-        <Link href="/directory">
-          <Card className="w-[350px]">
-            <CardHeader>
-              <CardTitle>Directory System</CardTitle>
-              <CardDescription>Centralized CDRRMD - Directory</CardDescription>
-            </CardHeader>
-            <CardContent>Directory</CardContent>
-            {/* <CardFooter className="flex justify-between">
-          <Button variant="outline">Cancel</Button>
-          <Button>Deploy</Button>
-        </CardFooter> */}
-          </Card>
-        </Link>
-      </button>
+    <main className="flex min-h-screen flex-row items-center p-24">
+      <span className="m-2">
+        <button>
+          <Link href="/contact-directory">
+            <Card className="w-[350px]">
+              <CardHeader>
+                <CardTitle>Directory System</CardTitle>
+                <CardDescription>Contact directory</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+        </button>
+      </span>
+      <span className="m-2">
+        <button>
+          <Link href="/critical-infrastructure">
+            <Card className="w-[350px]">
+              <CardHeader>
+                <CardTitle>Infrastructure</CardTitle>
+                <CardDescription>Critical infrastructure</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+        </button>
+      </span>
+      <span className="m-2">
+        <button>
+          <Link href="/evacuation-centers">
+            <Card className="w-[350px]">
+              <CardHeader>
+                <CardTitle>Evacuation Centers</CardTitle>
+                <CardDescription>Evacuation Centers</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+        </button>
+      </span>
     </main>
   );
 }

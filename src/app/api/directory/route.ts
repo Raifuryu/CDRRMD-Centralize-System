@@ -30,9 +30,9 @@ export async function GET() {
   const data = await prisma.person.findMany({
     include: {
       office: true,
-      phoneNumber: true,
-      emailAddress: true,
-      personTag: {
+      PhoneNumber: true,
+      EmailAddress: true,
+      PersonTag: {
         include: {
           tag: true,
         },

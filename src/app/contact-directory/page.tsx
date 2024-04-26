@@ -1,14 +1,14 @@
 import prisma from "@/lib/prisma";
-import { columns } from "./columns";
+import { columns } from "./person-columns";
 import { DataTable } from "./data-table";
 
 const getDirectoryData = async () => {
   const data = await prisma.person.findMany({
     include: {
       office: true,
-      phoneNumber: true,
-      emailAddress: true,
-      personTag: {
+      PhoneNumber: true,
+      EmailAddress: true,
+      PersonTag: {
         include: {
           tag: true,
         },
@@ -37,7 +37,7 @@ export default async function DirectoryPage() {
   const tagData = await getTagData();
 
   return (
-    <main>
+    <main className="h-screen">
       <DataTable
         columns={columns}
         data={directoryData}

@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Person Related
 model Person {
   id            Int                  @id @default(autoincrement())
   firstName     String               @db.VarChar(255)
@@ -23,44 +24,31 @@ model Person {
   officeId      Int
   createdAt     DateTime             @default(now())
   updatedAt     DateTime             @updatedAt
-  phoneNumber   PersonPhoneNumber[]
-  emailAddress  PersonEmailAddress[]
-  personTag     PersonTag[]
+  PhoneNumber   PersonPhoneNumber[]
+  EmailAddress  PersonEmailAddress[]
+  PersonTag     PersonTag[]
+  PersonAccount PersonAccount[]
 }
 
-model Office {
-  id                 Int                  @id @default(autoincrement())
-  barangay           Barangay             @relation(fields: [barangayId], references: [id])
-  barangayId         Int
-  name               String
-  acronym            String
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  person             Person[]
-  officePhoneNumber  OfficePhoneNumber[]
-  OfficeEmailAddress OfficeEmailAddress[]
+model PersonAccount {
+  id                Int                 @id @default(autoincrement())
+  person            Person              @relation(fields: [personId], references: [id])
+  personId          Int
+  username          String
+  password          String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  PersonAccountRole PersonAccountRole[]
 }
 
-model OfficePhoneNumber {
-  id        Int      @id @default(autoincrement())
-  office    Office   @relation(fields: [officeId], references: [id])
-  officeId  Int
-  number    String   @db.VarChar(255)
-  status    Status   @relation(fields: [statusId], references: [id])
-  statusId  Int      @default(1)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model OfficeEmailAddress {
-  id        Int      @id @default(autoincrement())
-  office    Office   @relation(fields: [officeId], references: [id])
-  officeId  Int
-  email     String   @db.VarChar(255)
-  status    Status   @relation(fields: [statusId], references: [id])
-  statusId  Int      @default(1)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model PersonAccountRole {
+  id              Int           @id @default(autoincrement())
+  personAccount   PersonAccount @relation(fields: [personAccountId], references: [id])
+  personAccountId Int
+  role            Role          @relation(fields: [roleId], references: [id])
+  roleId          Int
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 model PersonTag {
@@ -95,25 +83,65 @@ model PersonEmailAddress {
   updatedAt DateTime @updatedAt
 }
 
-model Tag {
-  id        Int         @id @default(autoincrement())
-  name      String      @db.VarChar(255)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  PersonTag PersonTag[]
-}
-
-model Status {
+// Office Related
+model Office {
   id                 Int                  @id @default(autoincrement())
+  barangay           Barangay             @relation(fields: [barangayId], references: [id])
+  barangayId         Int
   name               String
+  acronym            String
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
-  PhoneNumber        PersonPhoneNumber[]
-  EmailAddress       PersonEmailAddress[]
+  Person             Person[]
+  OfficeAccount      OfficeAccount[]
   OfficePhoneNumber  OfficePhoneNumber[]
   OfficeEmailAddress OfficeEmailAddress[]
+  OfficeTag          OfficeTag[]
 }
 
+model OfficeAccount {
+  id        Int      @id @default(autoincrement())
+  username  String
+  password  String
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OfficePhoneNumber {
+  id        Int      @id @default(autoincrement())
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  number    String   @db.VarChar(255)
+  status    Status   @relation(fields: [statusId], references: [id])
+  statusId  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OfficeEmailAddress {
+  id        Int      @id @default(autoincrement())
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  email     String   @db.VarChar(255)
+  status    Status   @relation(fields: [statusId], references: [id])
+  statusId  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OfficeTag {
+  id        Int      @id @default(autoincrement())
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Address
 model Municipality {
   id        Int      @id @default(autoincrement())
   name      String
@@ -134,15 +162,14 @@ model City {
 }
 
 model Barangay {
-  id                     Int                      @id @default(autoincrement())
-  city                   City                     @relation(fields: [cityId], references: [id])
-  cityId                 Int
-  name                   String
-  createdAt              DateTime                 @default(now())
-  updatedAt              DateTime                 @updatedAt
-  Office                 Office[]
-  CriticalInfrastructure CriticalInfrastructure[]
-  Sitio                  Sitio[]
+  id        Int      @id @default(autoincrement())
+  city      City     @relation(fields: [cityId], references: [id])
+  cityId    Int
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  office    Office[]
+  ditio     Sitio[]
 }
 
 model Sitio {
@@ -167,22 +194,73 @@ model Street {
 
 // Critical Infrastructure
 model CriticalInfrastructure {
-  id         Int      @id @default(autoincrement())
-  barangay   Barangay @relation(fields: [barangayId], references: [id])
-  barangayId Int
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  name       String
-  longitude  String
-  latitude   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  category       String
+  name           String
+  barangay       String
+  inspectionDate String
+  status         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
-model Category {
-  id                     Int                      @id @default(autoincrement())
-  name                   String
-  createdAt              DateTime                 @default(now())
-  updatedAt              DateTime                 @updatedAt
-  CriticalInfrastructure CriticalInfrastructure[]
+model EvacuationCenter {
+  id                 Int    @id @default(autoincrement())
+  barangay           String
+  sitio              String
+  name               String
+  isAssessed         String
+  haveMOA            String
+  onCMP              String
+  governmentOwned    String
+  type               String
+  individualCapacity String
+  familyCapacity     String
+  latitude           String
+  longitude          String
 }
+
+model CriticalInfrastructureCategory {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Misc.
+model Role {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  description       String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  PersonAccountRole PersonAccountRole[]
+}
+
+model Tag {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(255)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  PersonTag PersonTag[]
+  OfficeTag OfficeTag[]
+}
+
+model Status {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  phoneNumber        PersonPhoneNumber[]
+  emailAddress       PersonEmailAddress[]
+  officePhoneNumber  OfficePhoneNumber[]
+  officeEmailAddress OfficeEmailAddress[]
+}
+
+// model CriticalInfrastructureStatus {
+//   id                     Int                      @id @default(autoincrement())
+//   name                   String
+//   createdAt              DateTime                 @default(now())
+//   updatedAt              DateTime                 @updatedAt
+//   criticalInfrastructure CriticalInfrastructure[]
+// }
