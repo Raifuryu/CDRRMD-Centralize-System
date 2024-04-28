@@ -25,7 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { redirect } from "next/dist/server/api-utils";
-import { auth, signIn } from "../../../auth";
+import { signIn } from "@/auth";
 
 const signinFormSchema = z.object({
   username: z
@@ -45,9 +45,7 @@ export function SigninForm() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setLoading(true);
-    const session = await auth();
-    await signIn("Credentials", { redirectTo: "/contact-directory" });
-    console.log(values);
+    await signIn("credentials", values)
   }
   return (
     <div className="min-h-screen flex items-center justify-center">

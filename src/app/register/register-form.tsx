@@ -16,7 +16,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,26 +23,22 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
+import { register } from "@/lib/actions/register";
+import { Person, RegisterFormSchema } from "@/schemas";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const signUpFormSchema = z.object({
-  username: z
-    .string()
-    .min(2, { message: "Username must be at least 2 characters." }),
-  password: z.string().min(4, { message: "Password is required" }),
-});
-
-export function SignupForm() {
+export function SignupForm(persons: any) {
   let [loading, setLoading] = React.useState(false);
-  const signUpForm = useForm<z.infer<typeof signUpFormSchema>>({
-    resolver: zodResolver(signUpFormSchema),
-    defaultValues: { username: "", password: "" },
+  const signUpForm = useForm<z.infer<typeof RegisterFormSchema>>({
+    resolver: zodResolver(RegisterFormSchema),
+    defaultValues: { personId: 0, username: "", password: "" },
   });
 
-  function onSubmit(values: z.infer<typeof signUpFormSchema>) {
+  function onSubmit(values: z.infer<typeof RegisterFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setLoading(true);
-    console.log(values);
+    register(values)
   }
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -55,6 +50,28 @@ export function SignupForm() {
               <CardDescription>CDRRMD - Centralized System</CardDescription>
             </CardHeader>
             <CardContent>
+              <FormField
+                control={signUpForm.control}
+                name="personId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Person</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a verified email to display" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {persons.map((data: z.infer<typeof Person>) => {
+                          return <SelectItem value={data.id.toString()}>{data.firstName + " " + data.middleName + " " + data.lastName}</SelectItem>
+                        })}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={signUpForm.control}
                 name="username"

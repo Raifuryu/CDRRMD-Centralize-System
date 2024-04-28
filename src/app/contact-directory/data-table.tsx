@@ -2,7 +2,7 @@
 
 import z from "zod";
 
-import { revalidatePerson } from "@/lib/action";
+import { revalidatePerson } from "@/lib/revalidateTag/person";
 
 import { ArrowDown, ArrowUp, X } from "lucide-react";
 
@@ -78,6 +78,8 @@ import MultiSelectFormField from "@/components/ui/multi-select";
 import { cn } from "@/lib/utils";
 import { PersonEmailAddress, PersonPhoneNumber } from "@prisma/client";
 
+import { TagSchema, DirectoryFormSchema, OfficeSchema, FormMethodSchema } from "@/schemas";
+
 // data table
 
 interface DataTableProps<TData, TValue> {
@@ -86,40 +88,6 @@ interface DataTableProps<TData, TValue> {
 }
 
 // view form
-
-const formSchema = z.object({
-  id: z.number(),
-  firstName: z.string().min(1, { message: "First Name is required" }),
-  middleName: z.string(),
-  lastName: z.string().min(1, { message: "First Name is required" }),
-  extensionName: z.string(),
-  officeId: z.number().int({ message: "Office is required" }),
-  phoneNumber: z.array(
-    z.object({
-      number: z.string(),
-      status: z.boolean().default(true),
-    })
-  ),
-  emailAddress: z.array(
-    z.object({ email: z.string(), status: z.boolean().default(true) })
-  ),
-  tag: z.array(z.any()),
-});
-
-const officeData = z.object({
-  id: z.number(),
-  name: z.string(),
-  acronym: z.string(),
-});
-
-type OfficeData = z.infer<typeof officeData>;
-
-const tagData = z.object({
-  id: z.string(),
-  name: z.string(),
-});
-
-type TagData = z.infer<typeof tagData>;
 
 const MultiSelectOptionsSchema = z.object({
   value: z.string(),
@@ -132,9 +100,11 @@ const ComboBoxOptionsSchema = z.object({
   acronym: z.string(),
 });
 
-const FormStateSchema = z.enum(["POST", "PUT"]);
+type OfficeData = z.infer<typeof OfficeSchema>;
 
-type FormState = z.infer<typeof FormStateSchema>;
+type TagData = z.infer<typeof TagSchema>;
+
+type FormState = z.infer<typeof FormMethodSchema>;
 
 type ComboBoxOptions = z.infer<typeof ComboBoxOptionsSchema>;
 
@@ -209,8 +179,8 @@ export function DataTable<TData, TValue>({
   const selectedData: any =
     table.getFilteredSelectedRowModel().rows[0]?.original;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof DirectoryFormSchema>>({
+    resolver: zodResolver(DirectoryFormSchema),
     mode: "onChange",
     defaultValues: {
       id: 0,
@@ -600,8 +570,8 @@ export function DataTable<TData, TValue>({
                               >
                                 {field.value
                                   ? comboBoxOptions.find(
-                                      (option) => option.value === field.value
-                                    )?.label
+                                    (option) => option.value === field.value
+                                  )?.label
                                   : "Select agency"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                               </Button>
@@ -687,9 +657,8 @@ export function DataTable<TData, TValue>({
                               />
                             </FormControl>
                             <FormLabel
-                              className={`text-xs ${
-                                !field.value ? "text-red-500" : ""
-                              }`}
+                              className={`text-xs ${!field.value ? "text-red-500" : ""
+                                }`}
                             >
                               {field.value ? "Active" : "Inactive"}
                             </FormLabel>
@@ -795,9 +764,8 @@ export function DataTable<TData, TValue>({
                 />
               </div>
               <Button
-                className={`w-full ${
-                  formState === "POST" ? "bg-green-600" : "bg-sky-600"
-                }`}
+                className={`w-full ${formState === "POST" ? "bg-green-600" : "bg-sky-600"
+                  }`}
                 type="submit"
               >
                 {formState === "POST" ? "Submit" : "Update"}

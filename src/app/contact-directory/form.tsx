@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/command";
 
 import { Check, ChevronsUpDown, Minus, Plus } from "lucide-react";
-import { revalidatePerson } from "@/lib/action";
+import { revalidatePerson } from "@/lib/revalidateTag/person";
 import MultiSelectFormField from "@/components/ui/multi-select";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";

@@ -1,31 +1,13 @@
 "use server";
 import prisma from "@/lib/prisma";
 import z from "zod";
+import { PersonPhoneNumberSchema, PersonEmailAddressSchema } from "@/schemas";
 
-const personEmailAddressSchema = z.object({
-  id: z.number(),
-  personId: z.number(),
-  email: z.string(),
-  status: z.boolean(),
-  statusId: z.number(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-});
 
-type PersonEmailAddress = z.infer<typeof personEmailAddressSchema>;
+type PersonEmailAddress = z.infer<typeof PersonEmailAddressSchema>;
+type PersonPhoneNumber = z.infer<typeof PersonPhoneNumberSchema>;
 
-const personPhoneNumberSchema = z.object({
-  id: z.number(),
-  personId: z.number(),
-  number: z.string(),
-  status: z.boolean(),
-  statusId: z.number(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-});
-
-type PersonPhoneNumber = z.infer<typeof personPhoneNumberSchema>;
-
+// Get all Person Data
 export async function GET() {
   const data = await prisma.person.findMany({
     include: {

@@ -12,7 +12,6 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
-    "@auth/core": "^0.30.0",
     "@auth/prisma-adapter": "^2.0.0",
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.13.0",
