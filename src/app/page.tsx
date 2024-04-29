@@ -13,7 +13,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-row items-center p-24">
       <span className="m-2">
         <button>
-          <Link href="/contact-directory">
+          <Link href="/auth/contact-directory">
             <Card className="w-[350px]">
               <CardHeader>
                 <CardTitle>Directory System</CardTitle>

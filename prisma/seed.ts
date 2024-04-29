@@ -10,6 +10,10 @@ async function main() {
     },
   ];
 
+  for (const role of roleData) {
+    await prisma.role.create({ data: role });
+  }
+
   const municipalitiesData = [
     { name: "Not Applicable" },
     { name: "Misamis Oriental" },
@@ -4239,13 +4243,13 @@ async function main() {
   ];
 
   for (const data of personAccountData) {
-    await prisma.personAccount.create({ data: data });
+    await prisma.account.create({ data: data });
   }
 
   const personAccountRoleData = [
     {
       id: 1,
-      personAccountId: 54,
+      AccountId: 1,
       roleId: 1,
     },
   ];

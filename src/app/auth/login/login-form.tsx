@@ -16,7 +16,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,8 +23,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import { redirect } from "next/dist/server/api-utils";
-import { signIn } from "@/auth";
+import { login } from "@/lib/actions/login";
 
 const signinFormSchema = z.object({
   username: z
@@ -42,10 +40,8 @@ export function SigninForm() {
   });
 
   async function onSubmit(values: z.infer<typeof signinFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     setLoading(true);
-    await signIn("credentials", values)
+    login(values);
   }
   return (
     <div className="min-h-screen flex items-center justify-center">

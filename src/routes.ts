@@ -1,20 +1,15 @@
-
 /**
  *Array of routes that are accessible to the public
  * NOTE: DOES NOT REQUIRE AUTHENTICATION
  */
-export const publicRoutes = [
-  "/"
-]
+export const publicRoutes = ["/"];
 
 /**
  *Array of routes that are accessible when authenticated
  */
 
-export const authRoutes = [
-  "/auth/login"
-]
+export const authRoutes = ["/auth/login", "/auth/register"];
 
-export const apiAuthPrefix = "/api/auth"
+export const apiAuthPrefix = "/api/auth";
 
-export const DEFAULT_LOGIN_REDIRECT = "/"
+export const DEFAULT_LOGIN_REDIRECT = "/";

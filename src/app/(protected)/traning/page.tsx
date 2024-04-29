@@ -1,5 +1,8 @@
-import React from "react"
+import React from "react";
+import { auth } from "@/auth";
 
-export default function Page() {
-  return <main></main>
+export default async function Page() {
+  const session = await auth();
+
+  return <main>{JSON.stringify(session)}</main>;
 }
