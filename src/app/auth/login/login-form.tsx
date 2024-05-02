@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import { login } from "@/lib/actions/login";
+import { login } from "@/lib/actions/auth";
 
 const signinFormSchema = z.object({
   username: z

@@ -23,9 +23,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import { register } from "@/lib/actions/register";
-import { Person, RegisterFormSchema } from "@/schemas";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { register } from "@/lib/actions/auth";
+import { Person, RegisterFormSchema } from "@/schemas/definitions";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function SignupForm(persons: any) {
   let [loading, setLoading] = React.useState(false);
@@ -38,7 +44,7 @@ export function SignupForm(persons: any) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setLoading(true);
-    register(values)
+    register(values);
   }
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -56,15 +62,27 @@ export function SignupForm(persons: any) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Person</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value.toString()}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a verified email to display" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {persons.map((data: z.infer<typeof Person>) => {
-                          return <SelectItem value={data.id.toString()}>{data.firstName + " " + data.middleName + " " + data.lastName}</SelectItem>
+                        {console.log(persons)}
+                        {persons.map((data: any) => {
+                          return (
+                            <SelectItem value={data.id.toString()}>
+                              {data.firstName +
+                                " " +
+                                data.middleName +
+                                " " +
+                                data.lastName}
+                            </SelectItem>
+                          );
                         })}
                       </SelectContent>
                     </Select>

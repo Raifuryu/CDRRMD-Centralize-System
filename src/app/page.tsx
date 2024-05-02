@@ -1,16 +1,17 @@
 import Link from "next/link";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { auth } from "@/auth";
 
-export default function Home() {
+export default async function Page() {
+  const session = await auth();
   return (
     <main className="flex min-h-screen flex-row items-center p-24">
+      {console.log(session)}
       <span className="m-2">
         <button>
           <Link href="/auth/contact-directory">

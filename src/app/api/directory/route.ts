@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import z from "zod";
-import { PersonPhoneNumberSchema, PersonEmailAddressSchema } from "@/schemas";
+import { PersonPhoneNumberSchema, PersonEmailAddressSchema } from "@/schemas/definitions";
 
 
 type PersonEmailAddress = z.infer<typeof PersonEmailAddressSchema>;

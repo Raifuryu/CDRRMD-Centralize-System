@@ -1,29 +1,38 @@
-import Credentials from "next-auth/providers/credentials"
-import type { NextAuthConfig } from "next-auth"
-import { LoginSchema } from "./schemas"
-import prisma from "./lib/prisma"
-import bcrypt from "bcryptjs"
+import Credentials from "next-auth/providers/credentials";
+import type { NextAuthConfig } from "next-auth";
+import { LoginSchema } from "./schemas/definitions";
+import prisma from "./lib/prisma";
+import bcrypt from "bcryptjs";
 
 export default {
-  providers: [Credentials({
-    async authorize(credentials) {
-      const validatedFields = LoginSchema.safeParse(credentials)
+  providers: [
+    Credentials({
+      async authorize(credentials) {
+        const validatedFields = LoginSchema.safeParse(credentials);
 
-      if (validatedFields.success) {
-        const { username, password } = validatedFields.data
+        if (validatedFields.success) {
+          const { username, password } = validatedFields.data;
 
-        const user = await prisma.account.findFirst({
-          where: {
-            username: username
-          }
-        })
+          const user = await prisma.account.findFirst({
+            where: {
+              username: username,
+            },
+            include: {
+              PersonAccountRole: {
+                include: {
+                  role: true,
+                },
+              },
+            },
+          });
 
-        if (!user || !user.password) return;
+          if (!user || !user.password) return;
 
-        const passwordMatch = await bcrypt.compare(password, user.password)
-
-        if (passwordMatch) return user as any
-      }
-    }
-  })]
-} satisfies NextAuthConfig
+          const passwordMatch = await bcrypt.compare(password, user.password);
+          console.log(user);
+          if (passwordMatch) return user as any;
+        }
+      },
+    }),
+  ],
+} satisfies NextAuthConfig;

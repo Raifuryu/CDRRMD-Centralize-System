@@ -78,7 +78,7 @@ import MultiSelectFormField from "@/components/ui/multi-select";
 import { cn } from "@/lib/utils";
 import { PersonEmailAddress, PersonPhoneNumber } from "@prisma/client";
 
-import { TagSchema, DirectoryFormSchema, OfficeSchema, FormMethodSchema } from "@/schemas";
+import { TagSchema, DirectoryFormSchema, OfficeSchema, FormMethodSchema } from "@/schemas/definitions";
 
 // data table
 

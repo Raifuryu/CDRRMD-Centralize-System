@@ -31,23 +31,23 @@ export type Person = {
     name: string;
     acronym: string;
   };
-  phoneNumber: [
+  PhoneNumber: [
     {
       id: number;
       number: string;
       statusId: number;
     }
   ];
-  emailAddress: [
+  EmailAddress: [
     {
       id: number;
       email: String;
       statusId: number;
     }
   ];
-  personTag: [
+  PersonTag: [
     {
-      tag: {
+      Tag: {
         id: number;
         name: string;
       };
@@ -93,12 +93,12 @@ export const columns: ColumnDef<Person>[] = [
     },
   },
   {
-    accessorKey: "phoneNumber",
-    accessorFn: ({ phoneNumber }) =>
-      phoneNumber.flatMap(({ number }) => number).toString(),
+    accessorKey: "PhoneNumber",
+    accessorFn: ({ PhoneNumber }) =>
+      PhoneNumber.flatMap(({ number }) => number).toString(),
     header: "Phone Number",
     cell: ({ row }) => {
-      return row.original.phoneNumber.map((e, index) => {
+      return row.original.PhoneNumber.map((e, index) => {
         return (
           <div key={index}>
             <a
@@ -114,12 +114,12 @@ export const columns: ColumnDef<Person>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "emailAddress",
-    accessorFn: ({ emailAddress }) =>
-      emailAddress.flatMap(({ email }) => email).toString(),
+    accessorKey: "EmailAddress",
+    accessorFn: ({ EmailAddress }) =>
+      EmailAddress.flatMap(({ email }) => email).toString(),
     header: "Email Address",
     cell: ({ row }) => {
-      return row.original.emailAddress.map((e, index) => {
+      return row.original.EmailAddress.map((e, index) => {
         return (
           <div key={index}>
             <a
@@ -135,13 +135,13 @@ export const columns: ColumnDef<Person>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "personTag",
-    accessorFn: ({ personTag }) =>
-      personTag.map(({ tag }) => tag.name).toString(),
+    accessorKey: "PersonTag",
+    accessorFn: ({ PersonTag }) =>
+      PersonTag.map(({ Tag }) => Tag.name).toString(),
     header: "Tags",
     cell: ({ row }) => {
-      return row.original.personTag.map((e, index) => {
-        return <div key={index}>{e.tag.name}</div>;
+      return row.original.PersonTag.map((e, index) => {
+        return <div key={index}>{e.Tag.name}</div>;
       });
     },
   },
