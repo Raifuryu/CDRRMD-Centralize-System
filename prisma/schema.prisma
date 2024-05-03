@@ -42,13 +42,13 @@ model Account {
 }
 
 model PersonAccountRole {
-  id              Int      @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   Account   Account  @relation(fields: [AccountId], references: [id])
   AccountId Int
-  role            Role     @relation(fields: [roleId], references: [id])
-  roleId          Int
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PersonTag {
@@ -96,6 +96,7 @@ model Office {
   OfficePhoneNumber  OfficePhoneNumber[]
   OfficeEmailAddress OfficeEmailAddress[]
   OfficeTag          OfficeTag[]
+  TrainingOffice     TrainingOffice[]
 }
 
 model OfficePhoneNumber {
@@ -214,6 +215,48 @@ model CriticalInfrastructureCategory {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// Training
+model Training {
+  id             Int              @id @default(autoincrement())
+  venue          String
+  startDate      DateTime
+  endDate        DateTime
+  remarks        String
+  contactPerson  String
+  TrainingCourse TrainingCourse[]
+  TrainingOffice TrainingOffice[]
+}
+
+model TrainingOffice {
+  id         Int      @id @default(autoincrement())
+  training   Training @relation(fields: [trainingId], references: [id])
+  trainingId Int
+  office     Office   @relation(fields: [officeId], references: [id])
+  officeId   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model TrainingCourse {
+  id         Int      @id @default(autoincrement())
+  training   Training @relation(fields: [trainingId], references: [id])
+  trainingId Int
+  course     Course   @relation(fields: [courseId], references: [id])
+  courseId   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Course {
+  id             Int              @id @default(autoincrement())
+  name           String
+  acronym        String
+  description    String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  TrainingCourse TrainingCourse[]
 }
 
 // Misc.

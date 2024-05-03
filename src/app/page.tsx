@@ -8,13 +8,25 @@ import {
 import { auth } from "@/auth";
 
 export default async function Page() {
-  const session = await auth();
   return (
-    <main className="flex min-h-screen flex-row items-center p-24">
-      {console.log(session)}
+    <main className="flex min-h-screen flex-row items-center p-24 flex-wrap justify-center w-[80]">
       <span className="m-2">
         <button>
-          <Link href="/auth/contact-directory">
+          <Link href="/training">
+            <Card className="w-[350px]">
+              <CardHeader>
+                <CardTitle>Training System</CardTitle>
+                <CardDescription>
+                  Training - Information and Management System
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+        </button>
+      </span>
+      <span className="m-2">
+        <button>
+          <Link href="/contact-directory">
             <Card className="w-[350px]">
               <CardHeader>
                 <CardTitle>Directory System</CardTitle>

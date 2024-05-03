@@ -2,7 +2,11 @@
  *Array of routes that are accessible to the public
  * NOTE: DOES NOT REQUIRE AUTHENTICATION
  */
-export const publicRoutes = ["/"];
+export const publicRoutes = [
+  "/",
+  "/critical-infrastructure",
+  "/evacuation-centers",
+];
 
 /**
  *Array of routes that are accessible when authenticated
