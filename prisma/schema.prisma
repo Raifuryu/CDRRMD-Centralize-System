@@ -223,8 +223,9 @@ model Training {
   venue          String
   startDate      DateTime
   endDate        DateTime
-  remarks        String
+  remarks        String?
   contactPerson  String
+  contactNumber  String
   TrainingCourse TrainingCourse[]
   TrainingOffice TrainingOffice[]
 }
@@ -253,7 +254,7 @@ model Course {
   id             Int              @id @default(autoincrement())
   name           String
   acronym        String
-  description    String?
+  description    String?          @db.Text
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   TrainingCourse TrainingCourse[]

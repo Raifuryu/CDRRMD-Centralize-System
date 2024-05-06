@@ -10,10 +10,17 @@ export const trainingSchema = z.object({
       (data) => data.from > addDays(new Date(), -1),
       "Start date must be in the future"
     ),
+  pax: z.number(),
   remarks: z.string(),
   contactPerson: z.string(),
   contactNumber: z.string(),
   office: z.array(z.string()),
+});
+
+export const courseSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  description: z.string(),
 });
 
 export const participantSchema = z.object({

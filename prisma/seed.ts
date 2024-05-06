@@ -38512,6 +38512,41 @@ async function main() {
   for (const data of criticalInfrastructureData) {
     await prisma.criticalInfrastructure.create({ data: data });
   }
+
+  const courseData = [
+    {
+      id: 1,
+      name: "Basic Life Support",
+      acronym: "BLS",
+      description:
+        "Focus on providing immediate care to individuals who are experiencing cardiac arrest or other medical emergencies.",
+    },
+    {
+      id: 2,
+      name: "Basic Life Support - Hands-only CPR",
+      acronym: "BLS - HO",
+      description:
+        "Focus on providing immediate care to individuals who are experiencing cardiac arrest or other medical emergencies.",
+    },
+    {
+      id: 3,
+      name: "Standard First Aid",
+      acronym: "SFA",
+      description:
+        "Immediate assistance given to any person with either a minor or serious illness or injury, with care provided to preserve life, prevent the condition from worsening, or to promote recovery until medical services arrive.",
+    },
+    {
+      id: 4,
+      name: "Earthquake Drill Orientation",
+      acronym: "EDO",
+      description:
+        "This standard drill and evacuation uses simple steps to inform all teachers and students how to perform. Drop, Cover, and Hold On.",
+    },
+  ];
+
+  for (const data of courseData) {
+    await prisma.course.create({ data: data });
+  }
 }
 main()
   .then(async () => {

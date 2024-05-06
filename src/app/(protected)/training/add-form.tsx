@@ -6,12 +6,11 @@ import MultiSelectFormField from "@/components/ui/multi-select";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import {
   Form,
   FormControl,
@@ -41,16 +40,28 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { courseSchema } from "@/schemas/trainingDefinitions";
 
-export default function TrainingForm() {
+export default function TrainingForm(courseData) {
+  // console.log(courseData);
   const form = useForm<z.infer<typeof trainingSchema>>({
     resolver: zodResolver(trainingSchema),
     defaultValues: {},
   });
 
-  function onSubmit(values: z.infer<typeof trainingSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof trainingSchema>) {
+    const res = await fetch("/api/training", {
+      // next: { revalidate: 60 },
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // "API-Key": process.env.DATA_API_KEY!,
+      },
+      body: JSON.stringify(values),
+    });
+    // console.log(format(values.date.from, "yyyy-MM-dd"));
   }
+
   return (
     <main>
       <Sheet>
@@ -68,7 +79,7 @@ export default function TrainingForm() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <SheetContent>
+        <SheetContent className="max-w-[750px]">
           <SheetHeader>
             <SheetTitle>Training Form</SheetTitle>
             <Form {...form}>
@@ -83,10 +94,7 @@ export default function TrainingForm() {
                         <FormLabel>Course</FormLabel>
                         <FormControl>
                           <MultiSelectFormField
-                            options={[
-                              { label: "First Aid", value: "1" },
-                              { label: "Basic Life Support", value: "2" },
-                            ]}
+                            options={courseData}
                             defaultValue={field.value}
                             onValueChange={field.onChange}
                             placeholder="Select options"
@@ -104,7 +112,7 @@ export default function TrainingForm() {
                       <FormItem>
                         <FormLabel>Venue</FormLabel>
                         <FormControl>
-                          <Input placeholder="Input Course" {...field} />
+                          <Input placeholder="Input Venue" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -156,6 +164,24 @@ export default function TrainingForm() {
                       </FormItem>
                     )}
                   />
+                  {/* Participants Number */}
+                  <FormField
+                    control={form.control}
+                    name="pax"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Number of Participants</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Input Number of Participants"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   {/* Venue */}
                   <FormField
                     control={form.control}
@@ -196,7 +222,7 @@ export default function TrainingForm() {
                   {/* Contact number */}
                   <FormField
                     control={form.control}
-                    name="contactPerson"
+                    name="contactNumber"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Contact Number</FormLabel>
