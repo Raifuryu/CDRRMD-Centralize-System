@@ -76,7 +76,12 @@ import MultiSelectFormField from "@/components/ui/multi-select";
 import { cn } from "@/lib/utils";
 import { PersonEmailAddress, PersonPhoneNumber } from "@prisma/client";
 
-import { TagSchema, DirectoryFormSchema, OfficeSchema, FormMethodSchema } from "@/schemas/definitions";
+import {
+  TagSchema,
+  DirectoryFormSchema,
+  OfficeSchema,
+  FormMethodSchema,
+} from "@/schemas/definitions";
 
 // data table
 
@@ -156,9 +161,9 @@ export function DataTable<TData, TValue>({
   // form
 
   const comboBoxOptions: ComboBoxOptions[] = officeData.map(
-    (office: { id: number; name: string; acronym: string }) => ({
+    (office: { id: string; name: string; acronym: string }) => ({
       key: office.id,
-      value: office.id,
+      value: parseInt(office.id),
       label: office.name,
       acronym: office.acronym,
     })
@@ -568,8 +573,8 @@ export function DataTable<TData, TValue>({
                               >
                                 {field.value
                                   ? comboBoxOptions.find(
-                                    (option) => option.value === field.value
-                                  )?.label
+                                      (option) => option.value === field.value
+                                    )?.label
                                   : "Select agency"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                               </Button>
@@ -655,8 +660,9 @@ export function DataTable<TData, TValue>({
                               />
                             </FormControl>
                             <FormLabel
-                              className={`text-xs ${!field.value ? "text-red-500" : ""
-                                }`}
+                              className={`text-xs ${
+                                !field.value ? "text-red-500" : ""
+                              }`}
                             >
                               {field.value ? "Active" : "Inactive"}
                             </FormLabel>
@@ -762,8 +768,9 @@ export function DataTable<TData, TValue>({
                 />
               </div>
               <Button
-                className={`w-full ${formState === "POST" ? "bg-green-600" : "bg-sky-600"
-                  }`}
+                className={`w-full ${
+                  formState === "POST" ? "bg-green-600" : "bg-sky-600"
+                }`}
                 type="submit"
               >
                 {formState === "POST" ? "Submit" : "Update"}

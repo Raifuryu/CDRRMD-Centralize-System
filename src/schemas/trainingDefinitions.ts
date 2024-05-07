@@ -1,29 +1,29 @@
 import { addDays } from "date-fns";
 import * as z from "zod";
 
-export const trainingSchema = z.object({
+export const TrainingSchema = z.object({
   course: z.array(z.string()),
   venue: z.string(),
-  date: z
-    .object({ from: z.date(), to: z.date() })
-    .refine(
-      (data) => data.from > addDays(new Date(), -1),
-      "Start date must be in the future"
-    ),
-  pax: z.number(),
+  date: z.object({ from: z.date(), to: z.date() }),
+  pax: z.string(),
   remarks: z.string(),
   contactPerson: z.string(),
   contactNumber: z.string(),
   office: z.array(z.string()),
 });
 
-export const courseSchema = z.object({
-  id: z.number(),
+export const CourseSchema = z.object({
+  id: z.string(),
   name: z.string(),
   description: z.string(),
 });
 
-export const participantSchema = z.object({
+export const MultiSelectOptionsSchema = z.object({
+  value: z.string(),
+  label: z.string(),
+});
+
+export const ParticipantSchema = z.object({
   firstName: z.string(),
   middleName: z.string(),
   lastName: z.string(),

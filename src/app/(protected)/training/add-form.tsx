@@ -24,7 +24,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Calendar } from "@/components/ui/calendar";
 
-import { trainingSchema } from "@/schemas/trainingDefinitions";
+import {
+  TrainingSchema,
+  CourseSchema,
+  MultiSelectOptionsSchema,
+} from "@/schemas/trainingDefinitions";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -40,16 +44,48 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { courseSchema } from "@/schemas/trainingDefinitions";
+import { OfficeSchema } from "@/schemas/definitions";
 
-export default function TrainingForm(courseData) {
-  // console.log(courseData);
-  const form = useForm<z.infer<typeof trainingSchema>>({
-    resolver: zodResolver(trainingSchema),
-    defaultValues: {},
+type CourseData = z.infer<typeof CourseSchema>;
+type OfficeData = z.infer<typeof OfficeSchema>;
+type MultiSelectOptions = z.infer<typeof MultiSelectOptionsSchema>;
+
+export default function TrainingForm({
+  courseData,
+  officeData,
+}: {
+  courseData: CourseData[];
+  officeData: OfficeData[];
+}) {
+  const courseMultiSelectOptions: MultiSelectOptions[] = courseData.map(
+    (courseData: { id: string; name: string }) => ({
+      key: courseData.id,
+      value: courseData.id.toString(),
+      label: courseData.name,
+    })
+  );
+  const officeMultiSelectOptions: MultiSelectOptions[] = officeData.map(
+    (officeData: { id: string; name: string }) => ({
+      key: officeData.id,
+      value: officeData.id.toString(),
+      label: officeData.name,
+    })
+  );
+
+  const form = useForm<z.infer<typeof TrainingSchema>>({
+    resolver: zodResolver(TrainingSchema),
+    defaultValues: {
+      course: [],
+      venue: "",
+      date: {},
+      pax: "0",
+      remarks: "",
+      contactPerson: "",
+      contactNumber: "",
+    },
   });
 
-  async function onSubmit(values: z.infer<typeof trainingSchema>) {
+  async function onSubmit(values: z.infer<typeof TrainingSchema>) {
     const res = await fetch("/api/training", {
       // next: { revalidate: 60 },
       method: "POST",
@@ -59,7 +95,6 @@ export default function TrainingForm(courseData) {
       },
       body: JSON.stringify(values),
     });
-    // console.log(format(values.date.from, "yyyy-MM-dd"));
   }
 
   return (
@@ -94,7 +129,7 @@ export default function TrainingForm(courseData) {
                         <FormLabel>Course</FormLabel>
                         <FormControl>
                           <MultiSelectFormField
-                            options={courseData}
+                            options={courseMultiSelectOptions}
                             defaultValue={field.value}
                             onValueChange={field.onChange}
                             placeholder="Select options"
@@ -242,14 +277,7 @@ export default function TrainingForm(courseData) {
                         <FormLabel>Office to train</FormLabel>
                         <FormControl>
                           <MultiSelectFormField
-                            options={[
-                              { label: "Not Applicable", value: "1" },
-                              {
-                                label:
-                                  "City Disaster Risk Reduction and Management Department",
-                                value: "2",
-                              },
-                            ]}
+                            options={officeMultiSelectOptions}
                             defaultValue={field.value}
                             onValueChange={field.onChange}
                             placeholder="Select options"

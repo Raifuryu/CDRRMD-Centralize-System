@@ -223,6 +223,7 @@ model Training {
   venue          String
   startDate      DateTime
   endDate        DateTime
+  pax            Int
   remarks        String?
   contactPerson  String
   contactNumber  String

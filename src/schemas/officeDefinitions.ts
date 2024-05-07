@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export const officeSchema = z.object({
+  id: z.string(),
   name: z.string(),
   acronym: z.string(),
   organizationType: z.enum([
@@ -16,7 +17,7 @@ export const officeSchema = z.object({
 });
 
 export const Office = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   acronym: z.string(),
   phoneNumber: z.object({

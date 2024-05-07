@@ -1,9 +1,9 @@
-import * as z from "zod"
+import * as z from "zod";
 
 export const LoginSchema = z.object({
   username: z.string(),
   password: z.string(),
-})
+});
 
 export const RegisterFormSchema = z.object({
   personId: z.number(),
@@ -19,7 +19,7 @@ export const Person = z.object({
   middleName: z.string(),
   lastName: z.string(),
   extensionName: z.string(),
-})
+});
 
 export const PersonPhoneNumberSchema = z.object({
   id: z.number(),
@@ -61,7 +61,7 @@ export const DirectoryFormSchema = z.object({
 });
 
 export const OfficeSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   acronym: z.string(),
 });
