@@ -8,8 +8,8 @@ export default {
   providers: [
     Credentials({
       credentials: {
-        username: {},
-        password: {},
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);

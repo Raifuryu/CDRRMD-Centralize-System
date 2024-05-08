@@ -48,7 +48,7 @@ export default async function Page() {
         </div>
       </div>
       <Form courseData={courseData} officeData={officeData} />
-      {JSON.stringify(session)}
+      {/* {JSON.stringify(session)} */}
     </main>
   );
 }

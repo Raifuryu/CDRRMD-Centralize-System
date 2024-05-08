@@ -38516,31 +38516,135 @@ async function main() {
   const courseData = [
     {
       id: 1,
-      name: "Basic Life Support",
-      acronym: "BLS",
-      description:
-        "Focus on providing immediate care to individuals who are experiencing cardiac arrest or other medical emergencies.",
+      name: "Basic First Aid",
+      acronym: "BFA",
+      description: "",
     },
     {
       id: 2,
-      name: "Basic Life Support - Hands-only CPR",
-      acronym: "BLS - HO",
-      description:
-        "Focus on providing immediate care to individuals who are experiencing cardiac arrest or other medical emergencies.",
+      name: "First Aid - Bandaging Techniques",
+      acronym: "FA-BT",
+      description: "",
     },
     {
       id: 3,
       name: "Standard First Aid",
       acronym: "SFA",
-      description:
-        "Immediate assistance given to any person with either a minor or serious illness or injury, with care provided to preserve life, prevent the condition from worsening, or to promote recovery until medical services arrive.",
+      description: "",
     },
     {
       id: 4,
-      name: "Earthquake Drill Orientation",
+      name: "Basic Life Support",
+      acronym: "BLS",
+      description: "",
+    },
+    {
+      id: 5,
+      name: "Basic Life Support - Hands-only CPR",
+      acronym: "BLS-HCPR",
+      description: "",
+    },
+    {
+      id: 6,
+      name: "Disaster Preparedness",
+      acronym: "DP",
+      description: "",
+    },
+    {
+      id: 7,
+      name: "Water Safety",
+      acronym: "WS",
+      description: "",
+    },
+    {
+      id: 8,
+      name: "Water Safety Search and Rescue",
+      acronym: "WASAR",
+      description: "",
+    },
+    {
+      id: 9,
+      name: "Basic Ropemanship",
+      acronym: "BR",
+      description: "",
+    },
+    {
+      id: 10,
+      name: "Earthquake Orientation",
+      acronym: "EO",
+      description: "",
+    },
+    {
+      id: 11,
+      name: "Earthquake Drill",
+      acronym: "ED",
+      description: "",
+    },
+    {
+      id: 12,
+      name: "Fire Orientation",
+      acronym: "FO",
+      description: "",
+    },
+    {
+      id: 13,
+      name: "Fire Drill",
+      acronym: "FD",
+      description: "",
+    },
+    {
+      id: 14,
+      name: "Ambulance Operation",
       acronym: "EDO",
-      description:
-        "This standard drill and evacuation uses simple steps to inform all teachers and students how to perform. Drop, Cover, and Hold On.",
+      description: "",
+    },
+    {
+      id: 15,
+      name: "Mountain Search and Rescue",
+      acronym: "MOSAR",
+      description: "",
+    },
+    {
+      id: 16,
+      name: "High Angle Search and Rescue",
+      acronym: "MOSAR",
+      description: "",
+    },
+    {
+      id: 17,
+      name: "Boat Handling",
+      acronym: "BH",
+      description: "",
+    },
+    {
+      id: 18,
+      name: "Basic Swift Water Rescue",
+      acronym: "BSWR",
+      description: "",
+    },
+    {
+      id: 19,
+      name: "Emergency Medical Technician - Basic",
+      acronym: "EMTB",
+      description: "",
+    },
+    {
+      id: 20,
+      name: "Medical First Responder",
+      acronym: "MFR",
+      description: "",
+    },
+    {
+      id: 21,
+      name: "Community First Responder",
+      acronym: "MFR",
+      description: "",
+    },
+    {
+      id: 22,
+      name: "Collapse Structure Search and Rescue Orientation",
+      acronym: "CSSRO",
+      description: "",
     },
   ];
 

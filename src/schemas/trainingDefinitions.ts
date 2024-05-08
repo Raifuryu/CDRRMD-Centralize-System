@@ -1,7 +1,7 @@
-import { addDays } from "date-fns";
 import * as z from "zod";
 
 export const TrainingSchema = z.object({
+  trainer: z.number(),
   course: z.array(z.string()),
   venue: z.string(),
   date: z.object({ from: z.date(), to: z.date() }),
