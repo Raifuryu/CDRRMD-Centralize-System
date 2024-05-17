@@ -3,9 +3,10 @@ import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  if (body.course.length > 0 && body.office.length > 0) {
+  if (body.course.length > 0) {
     const postedData = await prisma.training.create({
       data: {
+        trainerId: parseInt(body.trainer),
         venue: body.venue,
         startDate: body.date.from,
         endDate: body.date.to,
@@ -23,7 +24,8 @@ export async function POST(request: Request) {
         },
       });
     });
-    body.office.map(async (e: string) => {
+
+    body.office?.map(async (e: string) => {
       await prisma.trainingOffice.create({
         data: {
           trainingId: postedData.id,

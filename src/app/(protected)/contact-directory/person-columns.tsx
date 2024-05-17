@@ -47,7 +47,7 @@ export type Person = {
   ];
   PersonTag: [
     {
-      Tag: {
+      tag: {
         id: number;
         name: string;
       };
@@ -136,12 +136,13 @@ export const columns: ColumnDef<Person>[] = [
   },
   {
     accessorKey: "PersonTag",
-    accessorFn: ({ PersonTag }) =>
-      PersonTag.map(({ Tag }) => Tag.name).toString(),
+    accessorFn: ({ PersonTag }) => {
+      return PersonTag.map(({ tag }) => tag.name).toString();
+    },
     header: "Tags",
     cell: ({ row }) => {
       return row.original.PersonTag.map((e, index) => {
-        return <div key={index}>{e.Tag.name}</div>;
+        return <div key={index}>{e.tag.name}</div>;
       });
     },
   },

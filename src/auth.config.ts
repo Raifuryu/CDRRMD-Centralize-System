@@ -3,6 +3,7 @@ import type { NextAuthConfig } from "next-auth";
 import { LoginSchema } from "./schemas/definitions";
 import prisma from "./lib/prisma";
 import bcrypt from "bcryptjs";
+import { cookies } from "next/headers";
 
 export default {
   providers: [
@@ -22,6 +23,7 @@ export default {
               username: username,
             },
             include: {
+              person: true,
               PersonAccountRole: {
                 include: {
                   role: true,
@@ -33,8 +35,15 @@ export default {
           if (!user || !user.password) return;
 
           const passwordMatch = await bcrypt.compare(password, user.password);
-          console.log(user);
-          if (passwordMatch) return user as any;
+          if (passwordMatch) {
+            const oneDay = 24 * 60 * 60 * 1000;
+            cookies().set("office", user.person.officeId.toString(), {
+              path: "/",
+              sameSite: "none",
+              secure: true,
+            });
+            return user as any;
+          }
         }
       },
     }),

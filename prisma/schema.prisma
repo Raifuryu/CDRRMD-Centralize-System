@@ -97,6 +97,7 @@ model Office {
   OfficeEmailAddress OfficeEmailAddress[]
   OfficeTag          OfficeTag[]
   TrainingOffice     TrainingOffice[]
+  Training           Training[]
 }
 
 model OfficePhoneNumber {
@@ -220,6 +221,8 @@ model CriticalInfrastructureCategory {
 // Training
 model Training {
   id             Int              @id @default(autoincrement())
+  trainer        Office           @relation(fields: [trainerId], references: [id])
+  trainerId      Int
   venue          String
   startDate      DateTime
   endDate        DateTime
@@ -227,6 +230,8 @@ model Training {
   remarks        String?
   contactPerson  String
   contactNumber  String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
   TrainingCourse TrainingCourse[]
   TrainingOffice TrainingOffice[]
 }

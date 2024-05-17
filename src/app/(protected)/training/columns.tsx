@@ -57,16 +57,20 @@ export const columns: ColumnDef<Training>[] = [
       TrainingOffice.map(({ office }) => office.acronym),
     header: "Office",
     cell: ({ row }) => {
-      return row.original.TrainingOffice.map((e, index) => (
-        <TooltipProvider key={index}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div>{index + 1 + ". " + e.office.acronym.toString()}</div>
-            </TooltipTrigger>
-            <TooltipContent>{e.office.name}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      ));
+      return row.original.TrainingOffice.length > 0 ? (
+        row.original.TrainingOffice.map((e, index) => (
+          <TooltipProvider key={index}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div>{index + 1 + ". " + e.office.acronym.toString()}</div>
+              </TooltipTrigger>
+              <TooltipContent>{e.office.name}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ))
+      ) : (
+        <div>Mixed Training</div>
+      );
     },
     enableSorting: false,
   },

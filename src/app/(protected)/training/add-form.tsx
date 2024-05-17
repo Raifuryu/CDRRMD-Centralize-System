@@ -46,6 +46,13 @@ import {
 } from "@/components/ui/tooltip";
 import { OfficeSchema } from "@/schemas/definitions";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { Select } from "@radix-ui/react-select";
+import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type CourseData = z.infer<typeof CourseSchema>;
 type OfficeData = z.infer<typeof OfficeSchema>;
@@ -54,9 +61,11 @@ type MultiSelectOptions = z.infer<typeof MultiSelectOptionsSchema>;
 export default function TrainingForm({
   courseData,
   officeData,
+  officeId,
 }: {
   courseData: CourseData[];
   officeData: OfficeData[];
+  officeId: string;
 }) {
   const courseMultiSelectOptions: MultiSelectOptions[] = courseData.map(
     (courseData: { id: string; name: string }) => ({
@@ -76,7 +85,7 @@ export default function TrainingForm({
   const form = useForm<z.infer<typeof TrainingSchema>>({
     resolver: zodResolver(TrainingSchema),
     defaultValues: {
-      trainer: 1,
+      trainer: officeId,
       course: [],
       venue: "",
       date: {},
@@ -84,6 +93,7 @@ export default function TrainingForm({
       remarks: "",
       contactPerson: "",
       contactNumber: "",
+      office: [],
     },
   });
 
@@ -117,12 +127,12 @@ export default function TrainingForm({
           </TooltipProvider>
         </div>
 
-        <SheetContent className="max-w-[xxxxpx] sm:max-w-[650px]">
+        <SheetContent className="max-w-[xxxxpx] sm:max-w-[650px] h-full">
           <SheetHeader>
             <SheetTitle>Training Form</SheetTitle>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <ScrollArea>
+                <ScrollArea className="overflow-y-auto">
                   {/* Course Selection */}
                   <div className="rounded-2xl border p-3 space-y-3">
                     {/* Trainer */}
@@ -132,9 +142,38 @@ export default function TrainingForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Trainer</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Input Venue" {...field} />
-                          </FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            disabled
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {officeData.map((e) => {
+                                return (
+                                  <SelectItem
+                                    key={e.id}
+                                    value={e.id.toString()}
+                                  >
+                                    {e.acronym}
+                                  </SelectItem>
+                                );
+                              })}
+                              {/* <SelectItem value="m@example.com">
+                                m@example.com
+                              </SelectItem>
+                              <SelectItem value="m@google.com">
+                                m@google.com
+                              </SelectItem>
+                              <SelectItem value="m@support.com">
+                                m@support.com
+                              </SelectItem> */}
+                            </SelectContent>
+                          </Select>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -157,20 +196,44 @@ export default function TrainingForm({
                         </FormItem>
                       )}
                     />
-                    {/* Venue */}
-                    <FormField
-                      control={form.control}
-                      name="venue"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Venue</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Input Venue" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="flex">
+                      <div className="w-1/2">
+                        {/* Venue */}
+                        <FormField
+                          control={form.control}
+                          name="venue"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Venue</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Input Venue" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="w-1/2">
+                        {/* Participants Number */}
+                        <FormField
+                          control={form.control}
+                          name="pax"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Number of Participants</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  placeholder="Input Number of Participants"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
                     {/* Date */}
                     <FormField
                       control={form.control}
@@ -220,24 +283,7 @@ export default function TrainingForm({
                         </FormItem>
                       )}
                     />
-                    {/* Participants Number */}
-                    <FormField
-                      control={form.control}
-                      name="pax"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Number of Participants</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="Input Number of Participants"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+
                     {/* Venue */}
                     <FormField
                       control={form.control}
@@ -259,36 +305,44 @@ export default function TrainingForm({
                         </FormItem>
                       )}
                     />
-
                     {/* Contact Person */}
-                    <FormField
-                      control={form.control}
-                      name="contactPerson"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Contact Person</FormLabel>
-                          <FormControl>
-                            <Input placeholder="John Doe" {...field} />
-                          </FormControl>
-                          <FormDescription>Person to contact</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    {/* Contact number */}
-                    <FormField
-                      control={form.control}
-                      name="contactNumber"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Contact Number</FormLabel>
-                          <FormControl>
-                            <Input placeholder="09123456789" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="flex">
+                      <div className="w-1/2">
+                        <FormField
+                          control={form.control}
+                          name="contactPerson"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Contact Person</FormLabel>
+                              <FormControl>
+                                <Input placeholder="John Doe" {...field} />
+                              </FormControl>
+                              <FormDescription>
+                                Person to contact
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="w-1/2">
+                        {/* Contact number */}
+                        <FormField
+                          control={form.control}
+                          name="contactNumber"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Contact Number</FormLabel>
+                              <FormControl>
+                                <Input placeholder="09123456789" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+
                     {/* Office */}
                     <FormField
                       control={form.control}

@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const TrainingSchema = z.object({
-  trainer: z.number(),
+  trainer: z.string(),
   course: z.array(z.string()),
   venue: z.string(),
   date: z.object({ from: z.date(), to: z.date() }),
@@ -10,6 +10,11 @@ export const TrainingSchema = z.object({
   contactPerson: z.string(),
   contactNumber: z.string(),
   office: z.array(z.string()),
+});
+
+export const TrainingDocumentsSchema = z.object({
+  after_activity_report: z.instanceof(File),
+  documentation: z.instanceof(FileList),
 });
 
 export const CourseSchema = z.object({
