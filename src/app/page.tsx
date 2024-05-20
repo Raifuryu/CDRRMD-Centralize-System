@@ -60,6 +60,20 @@ export default async function Page() {
           </Link>
         </button>
       </span>
+      <span className="m-2">
+        <button>
+          <Link href="/human-resource-information-system">
+            <Card className="w-[350px]">
+              <CardHeader>
+                <CardTitle>HRIS</CardTitle>
+                <CardDescription>
+                  Human Resource - Information System
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+        </button>
+      </span>
     </main>
   );
 }

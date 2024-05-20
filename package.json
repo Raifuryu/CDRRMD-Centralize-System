@@ -37,6 +37,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "lucide-react": "^0.363.0",
+    "multer": "^1.4.5-lts.1",
     "next": "^14.2.3",
     "next-auth": "^5.0.0-beta.16",
     "react": "^18",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.12.7",
     "@types/react": "^18",
     "@types/react-dom": "^18",

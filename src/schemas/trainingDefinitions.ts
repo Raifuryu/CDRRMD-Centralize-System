@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export const TrainingSchema = z.object({
+  id: z.number(),
   trainer: z.string(),
   course: z.array(z.string()),
   venue: z.string(),

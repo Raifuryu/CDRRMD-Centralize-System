@@ -1,5 +1,4 @@
 "use server";
-import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import path from "path";
 import { writeFile } from "fs/promises";

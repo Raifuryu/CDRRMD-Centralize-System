@@ -66,7 +66,7 @@ export default function View({
   });
 
   async function onSubmit(data: TrainingDocumentsData) {
-    const res = await fetch(`/api/training/${}`, {
+    const res = await fetch(`/api/training/${trainingData}`, {
       // next: { revalidate: 60 },
       method: "POST",
       headers: {

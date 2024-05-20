@@ -20,6 +20,7 @@ model Person {
   middleName    String?              @db.VarChar(255)
   lastName      String               @db.VarChar(255)
   extensionName String?              @db.VarChar(255)
+  gender        Gender?
   office        Office               @relation(fields: [officeId], references: [id])
   officeId      Int
   createdAt     DateTime             @default(now())
@@ -28,6 +29,57 @@ model Person {
   EmailAddress  PersonEmailAddress[]
   PersonTag     PersonTag[]
   PersonAccount Account[]
+  Personnel     Personnel[]
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model Personnel {
+  personId Person @relation(fields: [id], references: [id])
+  id       Int    @id @unique
+}
+
+model Division {
+  id        Int      @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Unit {
+  id        Int      @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Section {
+  id        Int      @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PersonAddress {
+  id         Int         @id @default(autoincrement())
+  city       City        @relation(fields: [cityId], references: [id])
+  cityId     Int
+  barangay   Barangay    @relation(fields: [barangayId], references: [id])
+  barangayId Int
+  street     String?
+  longitude  Float?
+  latitude   Float?
+  type       AddressType
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+enum AddressType {
+  Permanent
+  Temporary
 }
 
 model Account {
@@ -142,25 +194,27 @@ model Municipality {
 }
 
 model City {
-  id             Int          @id @default(autoincrement())
-  municipality   Municipality @relation(fields: [municipalityId], references: [id])
+  id             Int             @id @default(autoincrement())
+  municipality   Municipality    @relation(fields: [municipalityId], references: [id])
   municipalityId Int
   name           String
   zipCode        String
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   Barangay       Barangay[]
+  PersonAddress  PersonAddress[]
 }
 
 model Barangay {
-  id        Int      @id @default(autoincrement())
-  city      City     @relation(fields: [cityId], references: [id])
-  cityId    Int
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  office    Office[]
-  ditio     Sitio[]
+  id            Int             @id @default(autoincrement())
+  city          City            @relation(fields: [cityId], references: [id])
+  cityId        Int
+  name          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  office        Office[]
+  ditio         Sitio[]
+  PersonAddress PersonAddress[]
 }
 
 model Sitio {
