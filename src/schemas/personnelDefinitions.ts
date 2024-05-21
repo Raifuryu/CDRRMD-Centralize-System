@@ -16,3 +16,13 @@ export const PersonnelInformationSchema = z.object({
   employmentStatus: z.enum(["Permanent", "Casual", "Job Order"]),
   employmentDate: z.date(),
 });
+
+export const PersonnelTrainingSchema = z.object({
+  personnelId: z.number(),
+  host: z.string(),
+  name: z.string(),
+  date: z.date(),
+  hours: z.string(),
+  status: z.enum(["Completion", "Attendance", "Participation"]),
+  certificate: z.instanceof(File),
+});

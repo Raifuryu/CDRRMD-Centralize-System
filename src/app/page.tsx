@@ -62,7 +62,7 @@ export default async function Page() {
       </span>
       <span className="m-2">
         <button>
-          <Link href="/human-resource-information-system">
+          <Link href="/hris">
             <Card className="w-[350px]">
               <CardHeader>
                 <CardTitle>HRIS</CardTitle>

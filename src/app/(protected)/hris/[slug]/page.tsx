@@ -1,10 +1,27 @@
 import React from "react";
-import Details from "./details";
+import { Dashboard } from "./dashboard";
+import prisma from "@/lib/prisma";
 
-export default function Page({ params }: { params: { slug: string } }) {
+const getPersonnelTrainingData = async (id: string) => {
+  const data = await prisma.personnelTraining.findMany({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  return Response.json(data).json();
+};
+
+export default async function Page({ params }: { params: { slug: number } }) {
+  const personnelTraining = await getPersonnelTrainingData(
+    params.slug.toString()
+  );
   return (
     <main>
-      <Details id={parseInt(params.slug)} />
+      <Dashboard
+        personnelId={params.slug}
+        personnelTraining={personnelTraining}
+      />
     </main>
   );
 }

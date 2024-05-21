@@ -15,31 +15,58 @@ datasource db {
 
 // Person Related
 model Person {
-  id            Int                  @id @default(autoincrement())
-  firstName     String               @db.VarChar(255)
-  middleName    String?              @db.VarChar(255)
-  lastName      String               @db.VarChar(255)
-  extensionName String?              @db.VarChar(255)
-  gender        Gender?
-  office        Office               @relation(fields: [officeId], references: [id])
-  officeId      Int
-  createdAt     DateTime             @default(now())
-  updatedAt     DateTime             @updatedAt
-  PhoneNumber   PersonPhoneNumber[]
-  EmailAddress  PersonEmailAddress[]
-  PersonTag     PersonTag[]
-  PersonAccount Account[]
-  Personnel     Personnel[]
+  id                Int                  @id @default(autoincrement())
+  firstName         String               @db.VarChar(255)
+  middleName        String?              @db.VarChar(255)
+  lastName          String               @db.VarChar(255)
+  extensionName     String?              @db.VarChar(255)
+  gender            Gender?
+  office            Office               @relation(fields: [officeId], references: [id])
+  officeId          Int
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  PhoneNumber       PersonPhoneNumber[]
+  EmailAddress      PersonEmailAddress[]
+  PersonTag         PersonTag[]
+  PersonAccount     Account[]
+  PersonCategory    PersonCategory[]
+  PersonnelTraining PersonnelTraining?
 }
 
 enum Gender {
-  MALE
-  FEMALE
+  Male
+  Female
 }
 
-model Personnel {
-  personId Person @relation(fields: [id], references: [id])
-  id       Int    @id @unique
+model PersonCategory {
+  person    Person   @relation(fields: [id], references: [id])
+  id        Int      @id @unique
+  category  Category
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Category {
+  Personnel
+}
+
+model PersonnelTraining {
+  person            Person            @relation(fields: [id], references: [id])
+  id                Int               @id
+  host              String
+  name              String
+  dateOfTraining    DateTime
+  trainingHours     Int
+  certificateName   String
+  certificateStatus CertificateStatus
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+enum CertificateStatus {
+  Completion
+  Participation
+  Attendance
 }
 
 model Division {

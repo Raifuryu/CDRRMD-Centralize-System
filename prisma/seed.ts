@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Category, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -4256,6 +4256,324 @@ async function main() {
 
   for (const personAccountRole of personAccountRoleData) {
     await prisma.personAccountRole.create({ data: personAccountRole });
+  }
+
+  const personCategory = [
+    { id: 1, category: Category.Personnel },
+    { id: 2, category: Category.Personnel },
+    { id: 3, category: Category.Personnel },
+    { id: 4, category: Category.Personnel },
+    { id: 5, category: Category.Personnel },
+    { id: 6, category: Category.Personnel },
+    { id: 7, category: Category.Personnel },
+    { id: 8, category: Category.Personnel },
+    { id: 9, category: Category.Personnel },
+    { id: 10, category: Category.Personnel },
+    { id: 11, category: Category.Personnel },
+    { id: 12, category: Category.Personnel },
+    { id: 13, category: Category.Personnel },
+    { id: 14, category: Category.Personnel },
+    { id: 15, category: Category.Personnel },
+    { id: 16, category: Category.Personnel },
+    { id: 17, category: Category.Personnel },
+    { id: 18, category: Category.Personnel },
+    { id: 19, category: Category.Personnel },
+    { id: 20, category: Category.Personnel },
+    { id: 21, category: Category.Personnel },
+    { id: 22, category: Category.Personnel },
+    { id: 23, category: Category.Personnel },
+    { id: 24, category: Category.Personnel },
+    { id: 25, category: Category.Personnel },
+    { id: 26, category: Category.Personnel },
+    { id: 27, category: Category.Personnel },
+    { id: 28, category: Category.Personnel },
+    { id: 29, category: Category.Personnel },
+    { id: 30, category: Category.Personnel },
+    { id: 31, category: Category.Personnel },
+    { id: 32, category: Category.Personnel },
+    { id: 33, category: Category.Personnel },
+    { id: 34, category: Category.Personnel },
+    { id: 35, category: Category.Personnel },
+    { id: 36, category: Category.Personnel },
+    { id: 37, category: Category.Personnel },
+    { id: 38, category: Category.Personnel },
+    { id: 39, category: Category.Personnel },
+    { id: 40, category: Category.Personnel },
+    { id: 41, category: Category.Personnel },
+    { id: 42, category: Category.Personnel },
+    { id: 43, category: Category.Personnel },
+    { id: 44, category: Category.Personnel },
+    { id: 45, category: Category.Personnel },
+    { id: 46, category: Category.Personnel },
+    { id: 47, category: Category.Personnel },
+    { id: 48, category: Category.Personnel },
+    { id: 49, category: Category.Personnel },
+    { id: 50, category: Category.Personnel },
+    { id: 51, category: Category.Personnel },
+    { id: 52, category: Category.Personnel },
+    { id: 53, category: Category.Personnel },
+    { id: 54, category: Category.Personnel },
+    { id: 55, category: Category.Personnel },
+    { id: 56, category: Category.Personnel },
+    { id: 57, category: Category.Personnel },
+    { id: 58, category: Category.Personnel },
+    { id: 59, category: Category.Personnel },
+    { id: 60, category: Category.Personnel },
+    { id: 61, category: Category.Personnel },
+    { id: 62, category: Category.Personnel },
+    { id: 63, category: Category.Personnel },
+    { id: 64, category: Category.Personnel },
+    { id: 65, category: Category.Personnel },
+    { id: 66, category: Category.Personnel },
+    { id: 67, category: Category.Personnel },
+    { id: 68, category: Category.Personnel },
+    { id: 69, category: Category.Personnel },
+    { id: 70, category: Category.Personnel },
+    { id: 71, category: Category.Personnel },
+    { id: 72, category: Category.Personnel },
+    { id: 73, category: Category.Personnel },
+    { id: 74, category: Category.Personnel },
+    { id: 75, category: Category.Personnel },
+    { id: 76, category: Category.Personnel },
+    { id: 77, category: Category.Personnel },
+    { id: 78, category: Category.Personnel },
+    { id: 79, category: Category.Personnel },
+    { id: 80, category: Category.Personnel },
+    { id: 81, category: Category.Personnel },
+    { id: 82, category: Category.Personnel },
+    { id: 83, category: Category.Personnel },
+    { id: 84, category: Category.Personnel },
+    { id: 85, category: Category.Personnel },
+    { id: 86, category: Category.Personnel },
+    { id: 87, category: Category.Personnel },
+    { id: 88, category: Category.Personnel },
+    { id: 89, category: Category.Personnel },
+    { id: 90, category: Category.Personnel },
+    { id: 91, category: Category.Personnel },
+    { id: 92, category: Category.Personnel },
+    { id: 93, category: Category.Personnel },
+    { id: 94, category: Category.Personnel },
+    { id: 95, category: Category.Personnel },
+    { id: 96, category: Category.Personnel },
+    { id: 97, category: Category.Personnel },
+    { id: 98, category: Category.Personnel },
+    { id: 99, category: Category.Personnel },
+    { id: 100, category: Category.Personnel },
+    { id: 101, category: Category.Personnel },
+    { id: 102, category: Category.Personnel },
+    { id: 103, category: Category.Personnel },
+    { id: 104, category: Category.Personnel },
+    { id: 105, category: Category.Personnel },
+    { id: 106, category: Category.Personnel },
+    { id: 107, category: Category.Personnel },
+    { id: 108, category: Category.Personnel },
+    { id: 109, category: Category.Personnel },
+    { id: 110, category: Category.Personnel },
+    { id: 111, category: Category.Personnel },
+    { id: 112, category: Category.Personnel },
+    { id: 113, category: Category.Personnel },
+    { id: 114, category: Category.Personnel },
+    { id: 115, category: Category.Personnel },
+    { id: 116, category: Category.Personnel },
+    { id: 117, category: Category.Personnel },
+    { id: 118, category: Category.Personnel },
+    { id: 119, category: Category.Personnel },
+    { id: 120, category: Category.Personnel },
+    { id: 121, category: Category.Personnel },
+    { id: 122, category: Category.Personnel },
+    { id: 123, category: Category.Personnel },
+    { id: 124, category: Category.Personnel },
+    { id: 125, category: Category.Personnel },
+    { id: 126, category: Category.Personnel },
+    { id: 127, category: Category.Personnel },
+    { id: 128, category: Category.Personnel },
+    { id: 129, category: Category.Personnel },
+    { id: 130, category: Category.Personnel },
+    { id: 131, category: Category.Personnel },
+    { id: 132, category: Category.Personnel },
+    { id: 133, category: Category.Personnel },
+    { id: 134, category: Category.Personnel },
+    { id: 135, category: Category.Personnel },
+    { id: 136, category: Category.Personnel },
+    { id: 137, category: Category.Personnel },
+    { id: 138, category: Category.Personnel },
+    { id: 139, category: Category.Personnel },
+    { id: 140, category: Category.Personnel },
+    { id: 141, category: Category.Personnel },
+    { id: 142, category: Category.Personnel },
+    { id: 143, category: Category.Personnel },
+    { id: 144, category: Category.Personnel },
+    { id: 145, category: Category.Personnel },
+    { id: 146, category: Category.Personnel },
+    { id: 147, category: Category.Personnel },
+    { id: 148, category: Category.Personnel },
+    { id: 149, category: Category.Personnel },
+    { id: 150, category: Category.Personnel },
+    { id: 151, category: Category.Personnel },
+    { id: 152, category: Category.Personnel },
+    { id: 153, category: Category.Personnel },
+    { id: 154, category: Category.Personnel },
+    { id: 155, category: Category.Personnel },
+    { id: 156, category: Category.Personnel },
+    { id: 157, category: Category.Personnel },
+    { id: 158, category: Category.Personnel },
+    { id: 159, category: Category.Personnel },
+    { id: 160, category: Category.Personnel },
+    { id: 161, category: Category.Personnel },
+    { id: 162, category: Category.Personnel },
+    { id: 163, category: Category.Personnel },
+    { id: 164, category: Category.Personnel },
+    { id: 165, category: Category.Personnel },
+    { id: 166, category: Category.Personnel },
+    { id: 167, category: Category.Personnel },
+    { id: 168, category: Category.Personnel },
+    { id: 169, category: Category.Personnel },
+    { id: 170, category: Category.Personnel },
+    { id: 171, category: Category.Personnel },
+    { id: 172, category: Category.Personnel },
+    { id: 173, category: Category.Personnel },
+    { id: 174, category: Category.Personnel },
+    { id: 175, category: Category.Personnel },
+    { id: 176, category: Category.Personnel },
+    { id: 177, category: Category.Personnel },
+    { id: 178, category: Category.Personnel },
+    { id: 179, category: Category.Personnel },
+    { id: 180, category: Category.Personnel },
+    { id: 181, category: Category.Personnel },
+    { id: 182, category: Category.Personnel },
+    { id: 183, category: Category.Personnel },
+    { id: 184, category: Category.Personnel },
+    { id: 185, category: Category.Personnel },
+    { id: 186, category: Category.Personnel },
+    { id: 187, category: Category.Personnel },
+    { id: 188, category: Category.Personnel },
+    { id: 189, category: Category.Personnel },
+    { id: 190, category: Category.Personnel },
+    { id: 191, category: Category.Personnel },
+    { id: 192, category: Category.Personnel },
+    { id: 193, category: Category.Personnel },
+    { id: 194, category: Category.Personnel },
+    { id: 195, category: Category.Personnel },
+    { id: 196, category: Category.Personnel },
+    { id: 197, category: Category.Personnel },
+    { id: 198, category: Category.Personnel },
+    { id: 199, category: Category.Personnel },
+    { id: 200, category: Category.Personnel },
+    { id: 201, category: Category.Personnel },
+    { id: 202, category: Category.Personnel },
+    { id: 203, category: Category.Personnel },
+    { id: 204, category: Category.Personnel },
+    { id: 205, category: Category.Personnel },
+    { id: 206, category: Category.Personnel },
+    { id: 207, category: Category.Personnel },
+    { id: 208, category: Category.Personnel },
+    { id: 209, category: Category.Personnel },
+    { id: 210, category: Category.Personnel },
+    { id: 211, category: Category.Personnel },
+    { id: 212, category: Category.Personnel },
+    { id: 213, category: Category.Personnel },
+    { id: 214, category: Category.Personnel },
+    { id: 215, category: Category.Personnel },
+    { id: 216, category: Category.Personnel },
+    { id: 217, category: Category.Personnel },
+    { id: 218, category: Category.Personnel },
+    { id: 219, category: Category.Personnel },
+    { id: 220, category: Category.Personnel },
+    { id: 221, category: Category.Personnel },
+    { id: 222, category: Category.Personnel },
+    { id: 223, category: Category.Personnel },
+    { id: 224, category: Category.Personnel },
+    { id: 225, category: Category.Personnel },
+    { id: 226, category: Category.Personnel },
+    { id: 227, category: Category.Personnel },
+    { id: 228, category: Category.Personnel },
+    { id: 229, category: Category.Personnel },
+    { id: 230, category: Category.Personnel },
+    { id: 231, category: Category.Personnel },
+    { id: 232, category: Category.Personnel },
+    { id: 233, category: Category.Personnel },
+    { id: 234, category: Category.Personnel },
+    { id: 235, category: Category.Personnel },
+    { id: 236, category: Category.Personnel },
+    { id: 237, category: Category.Personnel },
+    { id: 238, category: Category.Personnel },
+    { id: 239, category: Category.Personnel },
+    { id: 240, category: Category.Personnel },
+    { id: 241, category: Category.Personnel },
+    { id: 242, category: Category.Personnel },
+    { id: 243, category: Category.Personnel },
+    { id: 244, category: Category.Personnel },
+    { id: 245, category: Category.Personnel },
+    { id: 246, category: Category.Personnel },
+    { id: 247, category: Category.Personnel },
+    { id: 248, category: Category.Personnel },
+    { id: 249, category: Category.Personnel },
+    { id: 250, category: Category.Personnel },
+    { id: 251, category: Category.Personnel },
+    { id: 252, category: Category.Personnel },
+    { id: 253, category: Category.Personnel },
+    { id: 254, category: Category.Personnel },
+    { id: 255, category: Category.Personnel },
+    { id: 256, category: Category.Personnel },
+    { id: 257, category: Category.Personnel },
+    { id: 258, category: Category.Personnel },
+    { id: 259, category: Category.Personnel },
+    { id: 260, category: Category.Personnel },
+    { id: 261, category: Category.Personnel },
+    { id: 262, category: Category.Personnel },
+    { id: 263, category: Category.Personnel },
+    { id: 264, category: Category.Personnel },
+    { id: 265, category: Category.Personnel },
+    { id: 266, category: Category.Personnel },
+    { id: 267, category: Category.Personnel },
+    { id: 268, category: Category.Personnel },
+    { id: 269, category: Category.Personnel },
+    { id: 270, category: Category.Personnel },
+    { id: 271, category: Category.Personnel },
+    { id: 272, category: Category.Personnel },
+    { id: 273, category: Category.Personnel },
+    { id: 274, category: Category.Personnel },
+    { id: 275, category: Category.Personnel },
+    { id: 276, category: Category.Personnel },
+    { id: 277, category: Category.Personnel },
+    { id: 278, category: Category.Personnel },
+    { id: 279, category: Category.Personnel },
+    { id: 280, category: Category.Personnel },
+    { id: 281, category: Category.Personnel },
+    { id: 282, category: Category.Personnel },
+    { id: 283, category: Category.Personnel },
+    { id: 284, category: Category.Personnel },
+    { id: 285, category: Category.Personnel },
+    { id: 286, category: Category.Personnel },
+    { id: 287, category: Category.Personnel },
+    { id: 288, category: Category.Personnel },
+    { id: 289, category: Category.Personnel },
+    { id: 290, category: Category.Personnel },
+    { id: 291, category: Category.Personnel },
+    { id: 292, category: Category.Personnel },
+    { id: 293, category: Category.Personnel },
+    { id: 294, category: Category.Personnel },
+    { id: 295, category: Category.Personnel },
+    { id: 296, category: Category.Personnel },
+    { id: 297, category: Category.Personnel },
+    { id: 298, category: Category.Personnel },
+    { id: 299, category: Category.Personnel },
+    { id: 300, category: Category.Personnel },
+    { id: 301, category: Category.Personnel },
+    { id: 302, category: Category.Personnel },
+    { id: 303, category: Category.Personnel },
+    { id: 304, category: Category.Personnel },
+    { id: 305, category: Category.Personnel },
+    { id: 306, category: Category.Personnel },
+    { id: 307, category: Category.Personnel },
+    { id: 308, category: Category.Personnel },
+    { id: 309, category: Category.Personnel },
+    { id: 310, category: Category.Personnel },
+    { id: 311, category: Category.Personnel },
+  ];
+
+  for (const data of personCategory) {
+    await prisma.personCategory.create({ data: data });
   }
 
   const numbersData = [
@@ -9157,6 +9475,14 @@ async function main() {
       id: 19,
       name: "CDRRMC",
     },
+    {
+      id: 20,
+      name: "Logistics",
+    },
+    {
+      id: 21,
+      name: "Liason",
+    },
   ];
 
   for (const tagData of tagsData) {
@@ -9164,6 +9490,1699 @@ async function main() {
   }
 
   const personTag = [
+    {
+      personId: 187,
+      tagId: 16,
+    },
+    {
+      personId: 188,
+      tagId: 16,
+    },
+    {
+      personId: 189,
+      tagId: 16,
+    },
+    {
+      personId: 190,
+      tagId: 16,
+    },
+    {
+      personId: 191,
+      tagId: 16,
+    },
+    {
+      personId: 193,
+      tagId: 16,
+    },
+    {
+      personId: 194,
+      tagId: 16,
+    },
+    {
+      personId: 195,
+      tagId: 16,
+    },
+    {
+      personId: 196,
+      tagId: 16,
+    },
+    {
+      personId: 197,
+      tagId: 16,
+    },
+    {
+      personId: 198,
+      tagId: 16,
+    },
+    {
+      personId: 199,
+      tagId: 16,
+    },
+    {
+      personId: 200,
+      tagId: 16,
+    },
+    {
+      personId: 201,
+      tagId: 16,
+    },
+    {
+      personId: 202,
+      tagId: 16,
+    },
+    {
+      personId: 203,
+      tagId: 16,
+    },
+    {
+      personId: 204,
+      tagId: 16,
+    },
+    {
+      personId: 205,
+      tagId: 16,
+    },
+    {
+      personId: 206,
+      tagId: 16,
+    },
+    {
+      personId: 207,
+      tagId: 16,
+    },
+    {
+      personId: 208,
+      tagId: 16,
+    },
+    {
+      personId: 209,
+      tagId: 16,
+    },
+    {
+      personId: 210,
+      tagId: 16,
+    },
+    {
+      personId: 211,
+      tagId: 16,
+    },
+    {
+      personId: 212,
+      tagId: 16,
+    },
+    {
+      personId: 213,
+      tagId: 16,
+    },
+    {
+      personId: 214,
+      tagId: 16,
+    },
+    {
+      personId: 215,
+      tagId: 16,
+    },
+    {
+      personId: 216,
+      tagId: 16,
+    },
+    {
+      personId: 217,
+      tagId: 16,
+    },
+    {
+      personId: 218,
+      tagId: 16,
+    },
+    {
+      personId: 219,
+      tagId: 16,
+    },
+    {
+      personId: 220,
+      tagId: 16,
+    },
+    {
+      personId: 221,
+      tagId: 16,
+    },
+    {
+      personId: 222,
+      tagId: 16,
+    },
+    {
+      personId: 223,
+      tagId: 16,
+    },
+    {
+      personId: 224,
+      tagId: 16,
+    },
+    {
+      personId: 225,
+      tagId: 16,
+    },
+    {
+      personId: 226,
+      tagId: 16,
+    },
+    {
+      personId: 227,
+      tagId: 16,
+    },
+    {
+      personId: 228,
+      tagId: 16,
+    },
+    {
+      personId: 229,
+      tagId: 16,
+    },
+    {
+      personId: 230,
+      tagId: 16,
+    },
+    {
+      personId: 231,
+      tagId: 16,
+    },
+    {
+      personId: 232,
+      tagId: 16,
+    },
+    {
+      personId: 233,
+      tagId: 16,
+    },
+    {
+      personId: 234,
+      tagId: 16,
+    },
+    {
+      personId: 235,
+      tagId: 16,
+    },
+    {
+      personId: 236,
+      tagId: 16,
+    },
+    {
+      personId: 237,
+      tagId: 16,
+    },
+    {
+      personId: 238,
+      tagId: 16,
+    },
+    {
+      personId: 239,
+      tagId: 16,
+    },
+    {
+      personId: 241,
+      tagId: 10,
+    },
+    {
+      personId: 242,
+      tagId: 10,
+    },
+    {
+      personId: 243,
+      tagId: 10,
+    },
+    {
+      personId: 244,
+      tagId: 10,
+    },
+    {
+      personId: 245,
+      tagId: 10,
+    },
+    {
+      personId: 246,
+      tagId: 10,
+    },
+    {
+      personId: 247,
+      tagId: 10,
+    },
+    {
+      personId: 248,
+      tagId: 10,
+    },
+    {
+      personId: 249,
+      tagId: 10,
+    },
+    {
+      personId: 250,
+      tagId: 10,
+    },
+    {
+      personId: 251,
+      tagId: 10,
+    },
+    {
+      personId: 252,
+      tagId: 10,
+    },
+    {
+      personId: 253,
+      tagId: 10,
+    },
+    {
+      personId: 254,
+      tagId: 10,
+    },
+    {
+      personId: 255,
+      tagId: 10,
+    },
+    {
+      personId: 256,
+      tagId: 10,
+    },
+    {
+      personId: 257,
+      tagId: 10,
+    },
+    {
+      personId: 258,
+      tagId: 10,
+    },
+    {
+      personId: 259,
+      tagId: 10,
+    },
+    {
+      personId: 260,
+      tagId: 10,
+    },
+    {
+      personId: 261,
+      tagId: 10,
+    },
+    {
+      personId: 262,
+      tagId: 10,
+    },
+    {
+      personId: 263,
+      tagId: 10,
+    },
+    {
+      personId: 264,
+      tagId: 10,
+    },
+    {
+      personId: 265,
+      tagId: 10,
+    },
+    {
+      personId: 266,
+      tagId: 10,
+    },
+    {
+      personId: 267,
+      tagId: 10,
+    },
+    {
+      personId: 268,
+      tagId: 10,
+    },
+    {
+      personId: 269,
+      tagId: 10,
+    },
+    {
+      personId: 270,
+      tagId: 10,
+    },
+    {
+      personId: 271,
+      tagId: 10,
+    },
+    {
+      personId: 272,
+      tagId: 10,
+    },
+    {
+      personId: 273,
+      tagId: 10,
+    },
+    {
+      personId: 274,
+      tagId: 10,
+    },
+    {
+      personId: 275,
+      tagId: 10,
+    },
+    {
+      personId: 276,
+      tagId: 10,
+    },
+    {
+      personId: 277,
+      tagId: 10,
+    },
+    {
+      personId: 278,
+      tagId: 10,
+    },
+    {
+      personId: 279,
+      tagId: 10,
+    },
+    {
+      personId: 280,
+      tagId: 10,
+    },
+    {
+      personId: 281,
+      tagId: 10,
+    },
+    {
+      personId: 282,
+      tagId: 10,
+    },
+    {
+      personId: 283,
+      tagId: 10,
+    },
+    {
+      personId: 284,
+      tagId: 10,
+    },
+    {
+      personId: 285,
+      tagId: 10,
+    },
+    {
+      personId: 286,
+      tagId: 10,
+    },
+    {
+      personId: 287,
+      tagId: 10,
+    },
+    {
+      personId: 288,
+      tagId: 10,
+    },
+    {
+      personId: 289,
+      tagId: 10,
+    },
+    {
+      personId: 290,
+      tagId: 10,
+    },
+    {
+      personId: 291,
+      tagId: 10,
+    },
+    {
+      personId: 292,
+      tagId: 10,
+    },
+    {
+      personId: 293,
+      tagId: 10,
+    },
+    {
+      personId: 294,
+      tagId: 10,
+    },
+    {
+      personId: 295,
+      tagId: 10,
+    },
+    {
+      personId: 296,
+      tagId: 10,
+    },
+    {
+      personId: 297,
+      tagId: 10,
+    },
+    {
+      personId: 298,
+      tagId: 10,
+    },
+    {
+      personId: 299,
+      tagId: 10,
+    },
+    {
+      personId: 300,
+      tagId: 10,
+    },
+    {
+      personId: 301,
+      tagId: 10,
+    },
+    {
+      personId: 302,
+      tagId: 10,
+    },
+    {
+      personId: 303,
+      tagId: 10,
+    },
+    {
+      personId: 304,
+      tagId: 10,
+    },
+    {
+      personId: 305,
+      tagId: 10,
+    },
+    {
+      personId: 306,
+      tagId: 10,
+    },
+    {
+      personId: 307,
+      tagId: 10,
+    },
+    {
+      personId: 308,
+      tagId: 10,
+    },
+    {
+      personId: 309,
+      tagId: 10,
+    },
+    {
+      personId: 310,
+      tagId: 10,
+    },
+    {
+      personId: 311,
+      tagId: 10,
+    },
+    {
+      personId: 241,
+      tagId: 18,
+    },
+    {
+      personId: 242,
+      tagId: 18,
+    },
+    {
+      personId: 243,
+      tagId: 18,
+    },
+    {
+      personId: 244,
+      tagId: 18,
+    },
+    {
+      personId: 245,
+      tagId: 18,
+    },
+    {
+      personId: 246,
+      tagId: 18,
+    },
+    {
+      personId: 247,
+      tagId: 18,
+    },
+    {
+      personId: 248,
+      tagId: 18,
+    },
+    {
+      personId: 249,
+      tagId: 18,
+    },
+    {
+      personId: 250,
+      tagId: 18,
+    },
+    {
+      personId: 251,
+      tagId: 18,
+    },
+    {
+      personId: 252,
+      tagId: 18,
+    },
+    {
+      personId: 253,
+      tagId: 18,
+    },
+    {
+      personId: 254,
+      tagId: 18,
+    },
+    {
+      personId: 255,
+      tagId: 18,
+    },
+    {
+      personId: 256,
+      tagId: 18,
+    },
+    {
+      personId: 257,
+      tagId: 18,
+    },
+    {
+      personId: 258,
+      tagId: 18,
+    },
+    {
+      personId: 259,
+      tagId: 18,
+    },
+    {
+      personId: 260,
+      tagId: 18,
+    },
+    {
+      personId: 261,
+      tagId: 18,
+    },
+    {
+      personId: 262,
+      tagId: 18,
+    },
+    {
+      personId: 263,
+      tagId: 18,
+    },
+    {
+      personId: 264,
+      tagId: 18,
+    },
+    {
+      personId: 265,
+      tagId: 18,
+    },
+    {
+      personId: 266,
+      tagId: 18,
+    },
+    {
+      personId: 267,
+      tagId: 18,
+    },
+    {
+      personId: 268,
+      tagId: 18,
+    },
+    {
+      personId: 269,
+      tagId: 18,
+    },
+    {
+      personId: 270,
+      tagId: 18,
+    },
+    {
+      personId: 271,
+      tagId: 18,
+    },
+    {
+      personId: 272,
+      tagId: 18,
+    },
+    {
+      personId: 273,
+      tagId: 18,
+    },
+    {
+      personId: 274,
+      tagId: 18,
+    },
+    {
+      personId: 275,
+      tagId: 18,
+    },
+    {
+      personId: 276,
+      tagId: 18,
+    },
+    {
+      personId: 277,
+      tagId: 18,
+    },
+    {
+      personId: 278,
+      tagId: 18,
+    },
+    {
+      personId: 279,
+      tagId: 18,
+    },
+    {
+      personId: 280,
+      tagId: 18,
+    },
+    {
+      personId: 281,
+      tagId: 18,
+    },
+    {
+      personId: 282,
+      tagId: 18,
+    },
+    {
+      personId: 283,
+      tagId: 18,
+    },
+    {
+      personId: 284,
+      tagId: 18,
+    },
+    {
+      personId: 285,
+      tagId: 18,
+    },
+    {
+      personId: 286,
+      tagId: 18,
+    },
+    {
+      personId: 287,
+      tagId: 18,
+    },
+    {
+      personId: 288,
+      tagId: 18,
+    },
+    {
+      personId: 289,
+      tagId: 18,
+    },
+    {
+      personId: 290,
+      tagId: 18,
+    },
+    {
+      personId: 291,
+      tagId: 18,
+    },
+    {
+      personId: 292,
+      tagId: 18,
+    },
+    {
+      personId: 293,
+      tagId: 18,
+    },
+    {
+      personId: 294,
+      tagId: 18,
+    },
+    {
+      personId: 295,
+      tagId: 18,
+    },
+    {
+      personId: 296,
+      tagId: 18,
+    },
+    {
+      personId: 297,
+      tagId: 18,
+    },
+    {
+      personId: 298,
+      tagId: 18,
+    },
+    {
+      personId: 299,
+      tagId: 18,
+    },
+    {
+      personId: 300,
+      tagId: 18,
+    },
+    {
+      personId: 301,
+      tagId: 18,
+    },
+    {
+      personId: 302,
+      tagId: 18,
+    },
+    {
+      personId: 303,
+      tagId: 18,
+    },
+    {
+      personId: 304,
+      tagId: 18,
+    },
+    {
+      personId: 305,
+      tagId: 18,
+    },
+    {
+      personId: 306,
+      tagId: 18,
+    },
+    {
+      personId: 307,
+      tagId: 18,
+    },
+    {
+      personId: 308,
+      tagId: 18,
+    },
+    {
+      personId: 309,
+      tagId: 18,
+    },
+    {
+      personId: 310,
+      tagId: 18,
+    },
+    {
+      personId: 311,
+      tagId: 18,
+    },
+    {
+      personId: 148,
+      tagId: 12,
+    },
+    {
+      personId: 149,
+      tagId: 12,
+    },
+    {
+      personId: 150,
+      tagId: 12,
+    },
+    {
+      personId: 151,
+      tagId: 12,
+    },
+    {
+      personId: 152,
+      tagId: 12,
+    },
+    {
+      personId: 153,
+      tagId: 12,
+    },
+    {
+      personId: 154,
+      tagId: 12,
+    },
+    {
+      personId: 155,
+      tagId: 12,
+    },
+    {
+      personId: 156,
+      tagId: 12,
+    },
+    {
+      personId: 157,
+      tagId: 12,
+    },
+    {
+      personId: 158,
+      tagId: 12,
+    },
+    {
+      personId: 159,
+      tagId: 12,
+    },
+    {
+      personId: 160,
+      tagId: 12,
+    },
+    {
+      personId: 161,
+      tagId: 12,
+    },
+    {
+      personId: 162,
+      tagId: 12,
+    },
+    {
+      personId: 163,
+      tagId: 12,
+    },
+    {
+      personId: 164,
+      tagId: 12,
+    },
+    {
+      personId: 165,
+      tagId: 12,
+    },
+    {
+      personId: 166,
+      tagId: 12,
+    },
+    {
+      personId: 167,
+      tagId: 12,
+    },
+    {
+      personId: 168,
+      tagId: 12,
+    },
+    {
+      personId: 169,
+      tagId: 12,
+    },
+    {
+      personId: 170,
+      tagId: 12,
+    },
+    {
+      personId: 171,
+      tagId: 12,
+    },
+    {
+      personId: 172,
+      tagId: 12,
+    },
+    {
+      personId: 173,
+      tagId: 12,
+    },
+    {
+      personId: 174,
+      tagId: 12,
+    },
+    {
+      personId: 175,
+      tagId: 12,
+    },
+    {
+      personId: 176,
+      tagId: 12,
+    },
+    {
+      personId: 177,
+      tagId: 12,
+    },
+    {
+      personId: 178,
+      tagId: 12,
+    },
+    {
+      personId: 179,
+      tagId: 12,
+    },
+    {
+      personId: 180,
+      tagId: 12,
+    },
+    {
+      personId: 181,
+      tagId: 12,
+    },
+    {
+      personId: 182,
+      tagId: 12,
+    },
+    {
+      personId: 183,
+      tagId: 12,
+    },
+    {
+      personId: 184,
+      tagId: 12,
+    },
+    {
+      personId: 185,
+      tagId: 12,
+    },
+    {
+      personId: 186,
+      tagId: 12,
+    },
+    {
+      personId: 192,
+      tagId: 12,
+    },
+    {
+      personId: 65,
+      tagId: 11,
+    },
+    {
+      personId: 66,
+      tagId: 11,
+    },
+    {
+      personId: 67,
+      tagId: 11,
+    },
+    {
+      personId: 68,
+      tagId: 11,
+    },
+    {
+      personId: 69,
+      tagId: 11,
+    },
+    {
+      personId: 70,
+      tagId: 11,
+    },
+    {
+      personId: 71,
+      tagId: 11,
+    },
+    {
+      personId: 72,
+      tagId: 11,
+    },
+    {
+      personId: 73,
+      tagId: 11,
+    },
+    {
+      personId: 74,
+      tagId: 11,
+    },
+    {
+      personId: 75,
+      tagId: 11,
+    },
+    {
+      personId: 76,
+      tagId: 11,
+    },
+    {
+      personId: 77,
+      tagId: 11,
+    },
+    {
+      personId: 78,
+      tagId: 11,
+    },
+    {
+      personId: 79,
+      tagId: 11,
+    },
+    {
+      personId: 80,
+      tagId: 11,
+    },
+    {
+      personId: 81,
+      tagId: 11,
+    },
+    {
+      personId: 82,
+      tagId: 11,
+    },
+    {
+      personId: 83,
+      tagId: 11,
+    },
+    {
+      personId: 84,
+      tagId: 11,
+    },
+    {
+      personId: 85,
+      tagId: 11,
+    },
+    {
+      personId: 86,
+      tagId: 11,
+    },
+    {
+      personId: 87,
+      tagId: 11,
+    },
+    {
+      personId: 88,
+      tagId: 11,
+    },
+    {
+      personId: 89,
+      tagId: 11,
+    },
+    {
+      personId: 90,
+      tagId: 11,
+    },
+    {
+      personId: 91,
+      tagId: 11,
+    },
+    {
+      personId: 92,
+      tagId: 11,
+    },
+    {
+      personId: 93,
+      tagId: 11,
+    },
+    {
+      personId: 94,
+      tagId: 11,
+    },
+    {
+      personId: 95,
+      tagId: 11,
+    },
+    {
+      personId: 96,
+      tagId: 11,
+    },
+    {
+      personId: 97,
+      tagId: 11,
+    },
+    {
+      personId: 98,
+      tagId: 11,
+    },
+    {
+      personId: 99,
+      tagId: 11,
+    },
+    {
+      personId: 100,
+      tagId: 11,
+    },
+    {
+      personId: 101,
+      tagId: 11,
+    },
+    {
+      personId: 102,
+      tagId: 11,
+    },
+    {
+      personId: 103,
+      tagId: 11,
+    },
+    {
+      personId: 104,
+      tagId: 11,
+    },
+    {
+      personId: 105,
+      tagId: 11,
+    },
+    {
+      personId: 106,
+      tagId: 11,
+    },
+    {
+      personId: 107,
+      tagId: 11,
+    },
+    {
+      personId: 108,
+      tagId: 11,
+    },
+    {
+      personId: 109,
+      tagId: 11,
+    },
+    {
+      personId: 110,
+      tagId: 11,
+    },
+    {
+      personId: 111,
+      tagId: 11,
+    },
+    {
+      personId: 112,
+      tagId: 11,
+    },
+    {
+      personId: 113,
+      tagId: 11,
+    },
+    {
+      personId: 114,
+      tagId: 11,
+    },
+    {
+      personId: 115,
+      tagId: 11,
+    },
+    {
+      personId: 116,
+      tagId: 11,
+    },
+    {
+      personId: 117,
+      tagId: 11,
+    },
+    {
+      personId: 118,
+      tagId: 11,
+    },
+    {
+      personId: 119,
+      tagId: 11,
+    },
+    {
+      personId: 120,
+      tagId: 11,
+    },
+    {
+      personId: 121,
+      tagId: 11,
+    },
+    {
+      personId: 122,
+      tagId: 11,
+    },
+    {
+      personId: 123,
+      tagId: 11,
+    },
+    {
+      personId: 124,
+      tagId: 11,
+    },
+    {
+      personId: 125,
+      tagId: 11,
+    },
+    {
+      personId: 126,
+      tagId: 11,
+    },
+    {
+      personId: 127,
+      tagId: 11,
+    },
+    {
+      personId: 128,
+      tagId: 11,
+    },
+    {
+      personId: 129,
+      tagId: 11,
+    },
+    {
+      personId: 130,
+      tagId: 11,
+    },
+    {
+      personId: 131,
+      tagId: 11,
+    },
+    {
+      personId: 132,
+      tagId: 11,
+    },
+    {
+      personId: 133,
+      tagId: 11,
+    },
+    {
+      personId: 134,
+      tagId: 11,
+    },
+    {
+      personId: 135,
+      tagId: 11,
+    },
+    {
+      personId: 136,
+      tagId: 11,
+    },
+    {
+      personId: 137,
+      tagId: 11,
+    },
+    {
+      personId: 138,
+      tagId: 11,
+    },
+    {
+      personId: 139,
+      tagId: 11,
+    },
+    {
+      personId: 140,
+      tagId: 11,
+    },
+    {
+      personId: 141,
+      tagId: 11,
+    },
+    {
+      personId: 142,
+      tagId: 11,
+    },
+    {
+      personId: 143,
+      tagId: 11,
+    },
+    {
+      personId: 144,
+      tagId: 11,
+    },
+    {
+      personId: 145,
+      tagId: 11,
+    },
+    {
+      personId: 146,
+      tagId: 11,
+    },
+    {
+      personId: 147,
+      tagId: 11,
+    },
+    {
+      personId: 65,
+      tagId: 18,
+    },
+    {
+      personId: 66,
+      tagId: 18,
+    },
+    {
+      personId: 67,
+      tagId: 18,
+    },
+    {
+      personId: 68,
+      tagId: 18,
+    },
+    {
+      personId: 69,
+      tagId: 18,
+    },
+    {
+      personId: 70,
+      tagId: 18,
+    },
+    {
+      personId: 71,
+      tagId: 18,
+    },
+    {
+      personId: 72,
+      tagId: 18,
+    },
+    {
+      personId: 73,
+      tagId: 18,
+    },
+    {
+      personId: 74,
+      tagId: 18,
+    },
+    {
+      personId: 75,
+      tagId: 18,
+    },
+    {
+      personId: 76,
+      tagId: 18,
+    },
+    {
+      personId: 77,
+      tagId: 18,
+    },
+    {
+      personId: 78,
+      tagId: 18,
+    },
+    {
+      personId: 79,
+      tagId: 18,
+    },
+    {
+      personId: 80,
+      tagId: 18,
+    },
+    {
+      personId: 81,
+      tagId: 18,
+    },
+    {
+      personId: 82,
+      tagId: 18,
+    },
+    {
+      personId: 83,
+      tagId: 18,
+    },
+    {
+      personId: 84,
+      tagId: 18,
+    },
+    {
+      personId: 85,
+      tagId: 18,
+    },
+    {
+      personId: 86,
+      tagId: 18,
+    },
+    {
+      personId: 87,
+      tagId: 18,
+    },
+    {
+      personId: 88,
+      tagId: 18,
+    },
+    {
+      personId: 89,
+      tagId: 18,
+    },
+    {
+      personId: 90,
+      tagId: 18,
+    },
+    {
+      personId: 91,
+      tagId: 18,
+    },
+    {
+      personId: 92,
+      tagId: 18,
+    },
+    {
+      personId: 93,
+      tagId: 18,
+    },
+    {
+      personId: 94,
+      tagId: 18,
+    },
+    {
+      personId: 95,
+      tagId: 18,
+    },
+    {
+      personId: 96,
+      tagId: 18,
+    },
+    {
+      personId: 97,
+      tagId: 18,
+    },
+    {
+      personId: 98,
+      tagId: 18,
+    },
+    {
+      personId: 99,
+      tagId: 18,
+    },
+    {
+      personId: 100,
+      tagId: 18,
+    },
+    {
+      personId: 101,
+      tagId: 18,
+    },
+    {
+      personId: 102,
+      tagId: 18,
+    },
+    {
+      personId: 103,
+      tagId: 18,
+    },
+    {
+      personId: 104,
+      tagId: 18,
+    },
+    {
+      personId: 105,
+      tagId: 18,
+    },
+    {
+      personId: 106,
+      tagId: 18,
+    },
+    {
+      personId: 107,
+      tagId: 18,
+    },
+    {
+      personId: 108,
+      tagId: 18,
+    },
+    {
+      personId: 109,
+      tagId: 18,
+    },
+    {
+      personId: 110,
+      tagId: 18,
+    },
+    {
+      personId: 111,
+      tagId: 18,
+    },
+    {
+      personId: 112,
+      tagId: 18,
+    },
+    {
+      personId: 113,
+      tagId: 18,
+    },
+    {
+      personId: 114,
+      tagId: 18,
+    },
+    {
+      personId: 115,
+      tagId: 18,
+    },
+    {
+      personId: 116,
+      tagId: 18,
+    },
+    {
+      personId: 117,
+      tagId: 18,
+    },
+    {
+      personId: 118,
+      tagId: 18,
+    },
+    {
+      personId: 119,
+      tagId: 18,
+    },
+    {
+      personId: 120,
+      tagId: 18,
+    },
+    {
+      personId: 121,
+      tagId: 18,
+    },
+    {
+      personId: 122,
+      tagId: 18,
+    },
+    {
+      personId: 123,
+      tagId: 18,
+    },
+    {
+      personId: 124,
+      tagId: 18,
+    },
+    {
+      personId: 125,
+      tagId: 18,
+    },
+    {
+      personId: 126,
+      tagId: 18,
+    },
+    {
+      personId: 127,
+      tagId: 18,
+    },
+    {
+      personId: 128,
+      tagId: 18,
+    },
+    {
+      personId: 129,
+      tagId: 18,
+    },
+    {
+      personId: 130,
+      tagId: 18,
+    },
+    {
+      personId: 131,
+      tagId: 18,
+    },
+    {
+      personId: 132,
+      tagId: 18,
+    },
+    {
+      personId: 133,
+      tagId: 18,
+    },
+    {
+      personId: 134,
+      tagId: 18,
+    },
+    {
+      personId: 135,
+      tagId: 18,
+    },
+    {
+      personId: 136,
+      tagId: 18,
+    },
+    {
+      personId: 137,
+      tagId: 18,
+    },
+    {
+      personId: 138,
+      tagId: 18,
+    },
+    {
+      personId: 139,
+      tagId: 18,
+    },
+    {
+      personId: 140,
+      tagId: 18,
+    },
+    {
+      personId: 141,
+      tagId: 18,
+    },
+    {
+      personId: 142,
+      tagId: 18,
+    },
+    {
+      personId: 143,
+      tagId: 18,
+    },
+    {
+      personId: 144,
+      tagId: 18,
+    },
+    {
+      personId: 145,
+      tagId: 18,
+    },
+    {
+      personId: 146,
+      tagId: 18,
+    },
+    {
+      personId: 147,
+      tagId: 18,
+    },
+    {
+      personId: 53,
+      tagId: 13,
+    },
+    {
+      personId: 54,
+      tagId: 13,
+    },
+    {
+      personId: 55,
+      tagId: 13,
+    },
+    {
+      personId: 56,
+      tagId: 13,
+    },
+    {
+      personId: 57,
+      tagId: 13,
+    },
+    {
+      personId: 58,
+      tagId: 13,
+    },
+    {
+      personId: 59,
+      tagId: 13,
+    },
+    {
+      personId: 60,
+      tagId: 13,
+    },
+    {
+      personId: 61,
+      tagId: 13,
+    },
+    {
+      personId: 62,
+      tagId: 13,
+    },
+    {
+      personId: 63,
+      tagId: 13,
+    },
+    {
+      personId: 64,
+      tagId: 13,
+    },
+    {
+      personId: 51,
+      tagId: 14,
+    },
+    {
+      personId: 52,
+      tagId: 14,
+    },
+    {
+      personId: 51,
+      tagId: 17,
+    },
+    {
+      personId: 52,
+      tagId: 17,
+    },
+    {
+      personId: 50,
+      tagId: 14,
+    },
+    {
+      personId: 49,
+      tagId: 17,
+    },
+    {
+      personId: 45,
+      tagId: 17,
+    },
+    {
+      personId: 49,
+      tagId: 20,
+    },
+    {
+      personId: 45,
+      tagId: 21,
+    },
+    {
+      personId: 1,
+      tagId: 11,
+    },
+    {
+      personId: 1,
+      tagId: 18,
+    },
+
     {
       personId: 312,
       tagId: 19,

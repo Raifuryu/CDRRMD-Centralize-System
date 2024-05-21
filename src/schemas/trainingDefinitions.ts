@@ -15,7 +15,7 @@ export const TrainingSchema = z.object({
 
 export const TrainingDocumentsSchema = z.object({
   after_activity_report: z.instanceof(File),
-  documentation: z.instanceof(FileList),
+  documentation: z.any(),
 });
 
 export const CourseSchema = z.object({

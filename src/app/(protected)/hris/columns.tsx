@@ -1,8 +1,9 @@
 "use client";
 
 import * as z from "zod";
-import { PersonnelSchema } from "@/schemas/personnelSchema";
+import { PersonnelSchema } from "@/schemas/personnelDefinitions";
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 type Personnel = z.infer<typeof PersonnelSchema>;
 
@@ -38,6 +39,9 @@ export const columns: ColumnDef<Personnel>[] = [
   {
     accessorKey: "id",
     header: "View",
+    cell: ({ row }) => {
+      return <Link href={`hris/${row.original.id}`}>View</Link>;
+    },
     enableColumnFilter: false,
     enableGlobalFilter: false,
     enableSorting: false,

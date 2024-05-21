@@ -32,7 +32,6 @@ const getTrainingData = async () => {
       },
     },
   });
-  console.log(data);
   return Response.json(data).json();
 };
 

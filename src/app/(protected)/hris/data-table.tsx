@@ -66,8 +66,8 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
-      <div className="flex justify-between mb-3">
+    <div className="container rounded-2xl border p-3">
+      <div className="flex justify-between">
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -115,7 +115,8 @@ export function DataTable<TData, TValue>({
           />
         </div>
       </div>
-      <div className="rounded-2xl border">
+
+      <div className="">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -171,6 +172,24 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
+            {/* <TableRow>
+                {table.getAllColumns().map((e) => (
+                  <TableCell key={e.id}>
+                    <Input
+                      value={
+                        (table.getColumn(e.id)?.getFilterValue() as string) ??
+                        ""
+                      }
+                      onChange={(event) =>
+                        table
+                          .getColumn(e.id)
+                          ?.setFilterValue(event.target.value)
+                      }
+                      className="max-w-sm"
+                    />
+                  </TableCell>
+                ))}
+              </TableRow> */}
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -199,6 +218,24 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className="flex items-end justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );
