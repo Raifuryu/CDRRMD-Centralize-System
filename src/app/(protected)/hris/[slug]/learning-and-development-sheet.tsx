@@ -52,9 +52,14 @@ export default function LearningAndDevelopmentSheet({
   personnelId: number;
 }) {
   const trainingForm = useForm<z.infer<typeof PersonnelTrainingSchema>>({
-    resolver: zodResolver(PersonnelTrainingSchema),
+    // resolver: zodResolver(PersonnelTrainingSchema),
     defaultValues: {
       personnelId: personnelId,
+      host: "",
+      name: "",
+      date: new Date(),
+      hours: "",
+      status: "Completion",
     },
   });
 
@@ -71,7 +76,7 @@ export default function LearningAndDevelopmentSheet({
       }
     }
 
-    const res = await fetch("/api/hris", {
+    const res = await fetch("/api/hris/learning-and-development", {
       method: "POST",
       body: formData,
     });

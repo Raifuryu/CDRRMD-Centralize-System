@@ -57,7 +57,7 @@ model PersonnelTraining {
   name              String
   dateOfTraining    DateTime
   trainingHours     Int
-  certificateName   String
+  fileName          String
   certificateStatus CertificateStatus
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt

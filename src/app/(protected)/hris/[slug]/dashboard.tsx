@@ -27,7 +27,7 @@ export function Dashboard({
   const renderCategoryComponent = () => {
     switch (category) {
       case 1:
-        return <PersonalInformation />;
+        return <PersonalInformation personnelId={personnelId} />;
       case 2:
         return <FamilyBackground />;
       case 3:
@@ -53,8 +53,8 @@ export function Dashboard({
   };
 
   return (
-    <div>
-      <div className="flex justify-center">
+    <div className="flex flex-col justify-center items-center">
+      <div>
         <div className="border rounded-2xl mt-5 p-5 space-x-5">
           <Button onClick={() => setCategory(1)}>Personal Information</Button>
           <Button onClick={() => setCategory(2)}>Family Background</Button>

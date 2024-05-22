@@ -1,27 +1,32 @@
-import { NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import prisma from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
+import { CertificateStatus } from "@prisma/client";
 
 export async function POST(request: Request) {
   const data = await request.formData();
-  const file: File | null = data.get("certificate") as unknown as File;
-  const personnelId: string = data.get("personneLId") as string;
-  const certificateName: string = data.get("name") as string;
-  const certificateDate: string | null = data.get("date") as string;
+  const personnelId: string = data.get("personnelId") as string;
+  const host: string = data.get("host") as string;
+  const name: string = data.get("name") as string;
+  const date: string | null = data.get("date") as string;
+  const hours: string | null = data.get("hours") as string;
+  const certificate: File | null = data.get("certificate") as unknown as File;
+  const status: string | null = data.get("status") as string;
+
+  const numericString = personnelId.replace(/\D/g, ""); // Remove non-numeric characters
 
   const user = await prisma.person.findFirst({
     where: {
-      id: parseInt(personnelId),
+      id: parseInt(numericString),
     },
   });
 
   if (!data) {
-    return NextResponse.json({ success: false });
+    return Response.json({ success: false });
   }
 
-  const bytes = await file.arrayBuffer();
+  const bytes = await certificate.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
   // get name to be used as folder name
@@ -34,11 +39,8 @@ export async function POST(request: Request) {
     " " +
     user?.extensionName;
   const filename =
-    certificateDate.split("T")[0] +
-      "_" +
-      certificateName +
-      "." +
-      file.name.split(".").pop() || "";
+    date.split("T")[0] + "_" + name + "." + certificate.name.split(".").pop() ||
+    "";
   const cleanedFilename = filename.replace(/"/g, "");
 
   try {
@@ -61,24 +63,27 @@ export async function POST(request: Request) {
       buffer
     );
 
-    return NextResponse.json({ Message: "Success", status: 201 });
+    const newCertificateStatus =
+      status === "Completion"
+        ? CertificateStatus.Completion
+        : status === "Participation"
+        ? CertificateStatus.Participation
+        : CertificateStatus.Attendance;
+
+    await prisma.personnelTraining.create({
+      data: {
+        id: parseInt(numericString),
+        host: JSON.parse(host),
+        name: JSON.parse(name),
+        dateOfTraining: JSON.parse(date),
+        trainingHours: parseInt(hours.replace(/\D/g, "")),
+        certificateStatus: newCertificateStatus,
+      },
+    });
+
+    return Response.json({ Message: "Success", status: 201 });
   } catch (error) {
     console.log("Error occured ", error);
-    return NextResponse.json({ Message: "Failed", status: 500 });
+    return Response.json({ Message: "Failed", status: 500 });
   }
-}
-
-export async function GET(NextRequest: NextRequest) {
-  const personnelId =
-    NextRequest.nextUrl.searchParams.get("personnelId") || "0";
-  console.log("shlok" + personnelId);
-  const data = await prisma.personnelTraining.findMany({
-    where: {
-      id: parseInt(personnelId),
-    },
-  });
-
-  console.log(data);
-
-  return Response.json(data).json();
 }
