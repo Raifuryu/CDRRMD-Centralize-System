@@ -1,4 +1,7 @@
 CDRRMD - Centralized System
+
+docker build -t cdrrmd/centralize-system
+docker run -p 3001:3001 -v /volume1/web/uploads:/app/public/uploads cdrrmd/centralize-system
 =======
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
