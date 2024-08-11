@@ -16,6 +16,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,75 +24,41 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import { register } from "@/lib/actions/auth";
-import { Person, RegisterFormSchema } from "@/schemas/definitions";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { redirect } from "next/dist/server/api-utils";
+import { signIn } from "@/auth";
 
-export function SignupForm(persons: any) {
+const signinFormSchema = z.object({
+  username: z
+    .string()
+    .min(2, { message: "Username must be at least 2 characters." }),
+  password: z.string().min(4, { message: "Password is required" }),
+});
+
+export function SigninForm() {
   let [loading, setLoading] = React.useState(false);
-  const signUpForm = useForm<z.infer<typeof RegisterFormSchema>>({
-    resolver: zodResolver(RegisterFormSchema),
-    defaultValues: { personId: 0, username: "", password: "" },
+  const signinForm = useForm<z.infer<typeof signinFormSchema>>({
+    resolver: zodResolver(signinFormSchema),
+    defaultValues: { username: "", password: "" },
   });
 
-  function onSubmit(values: z.infer<typeof RegisterFormSchema>) {
+  async function onSubmit(values: z.infer<typeof signinFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setLoading(true);
-    register(values);
+    await signIn("credentials", values)
   }
   return (
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-[350px]">
-        <Form {...signUpForm}>
-          <form onSubmit={signUpForm.handleSubmit(onSubmit)}>
+        <Form {...signinForm}>
+          <form onSubmit={signinForm.handleSubmit(onSubmit)}>
             <CardHeader>
               <CardTitle>Sign-in</CardTitle>
               <CardDescription>CDRRMD - Centralized System</CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
-                control={signUpForm.control}
-                name="personId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Person</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value.toString()}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {console.log(persons)}
-                        {persons.map((data: any, index: number) => {
-                          return (
-                            <SelectItem key={index} value={data.id.toString()}>
-                              {data.firstName +
-                                " " +
-                                data.middleName +
-                                " " +
-                                data.lastName}
-                            </SelectItem>
-                          );
-                        })}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={signUpForm.control}
+                control={signinForm.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem>
@@ -104,7 +71,7 @@ export function SignupForm(persons: any) {
                 )}
               />
               <FormField
-                control={signUpForm.control}
+                control={signinForm.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
@@ -122,7 +89,7 @@ export function SignupForm(persons: any) {
                 {loading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : null}
-                Create Account
+                Login
               </Button>
             </CardFooter>
           </form>

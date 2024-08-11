@@ -41,7 +41,7 @@ import { Switch } from "@/components/ui/switch";
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "First Name is required" }),
   middleName: z.string(),
-  lastName: z.string().min(1, { message: "First Name is required" }),
+  lastName: z.string().min(1, { message: "Last Name is required" }),
   extensionName: z.string(),
   officeId: z.number().int({ message: "Office is required" }),
   phoneNumber: z.array(

@@ -258,16 +258,16 @@ export function DataTable<TData, TValue>({
         lastName: selectedData?.lastName,
         extensionName: selectedData?.extensionName,
         officeId: selectedData?.officeId,
-        phoneNumber: selectedData?.phoneNumber.map((e: PersonPhoneNumber) => {
+        phoneNumber: selectedData?.PhoneNumber.map((e: PersonPhoneNumber) => {
           // update status for later
           return { number: e.number, status: e.statusId === 1 ? true : false };
         }),
-        emailAddress: selectedData?.emailAddress.map(
+        emailAddress: selectedData?.EmailAddress.map(
           (e: PersonEmailAddress) => {
             return { email: e.email, status: e.statusId === 1 ? true : false };
           }
         ),
-        tag: selectedData?.personTag.map(
+        tag: selectedData?.PersonTag.map(
           ({ tagId }: { tagId: number }) => tagId
         ),
       });
@@ -285,7 +285,7 @@ export function DataTable<TData, TValue>({
       });
       setFormState("POST");
     }
-  }, [selectedData, setFormState]); // Include setFormState in the dependency array
+  }, [form, selectedData]); // Include setFormState in the dependency array
 
   return (
     <div className="flex h-full m-5">
@@ -478,7 +478,7 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
       <div className="rounded-2xl border p-4 w-1/4 ml-2">
-        <div className="flex justify-center">Add Form</div>
+        <div className="flex justify-center">Add/Update Form</div>
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>

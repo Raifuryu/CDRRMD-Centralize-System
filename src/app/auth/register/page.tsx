@@ -1,7 +1,6 @@
 import React from "react";
-
-import prisma from "@/lib/prisma";
 import { SignupForm } from "./register-form";
+import prisma from "@/lib/prisma";
 
 const getPersons = async () => {
   const data = await prisma.person.findMany({

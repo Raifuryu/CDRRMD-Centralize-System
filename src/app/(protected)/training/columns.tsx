@@ -1,14 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import Link from "next/link";
+import { date } from "zod";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -22,7 +18,7 @@ type Training = {
       };
     }
   ];
-  TrainingOffice: [
+  TrainingHost: [
     {
       office: {
         name: string;
@@ -30,49 +26,50 @@ type Training = {
       };
     }
   ];
+  TrainingDocuments: [
+    {
+      afterActivityReport: boolean;
+      documentation: boolean;
+    }
+  ];
+  requestingOffice: {
+    name: string;
+    acronym: string;
+  };
   venue: string;
   startDate: Date;
   endDate: Date;
   remarks: string | null;
   contactPerson: string;
   contactNumber: string;
+  status: string;
+  pax: number; // Add the 'pax' property
 };
 
 export const columns: ColumnDef<Training>[] = [
   {
     accessorKey: "course",
     accessorFn: ({ TrainingCourse }) =>
-      TrainingCourse.map(({ course }) => course.name),
+      TrainingCourse.map(({ course }) => course.name).toString(),
     header: "Course",
     cell: ({ row }) => {
       return row.original.TrainingCourse.map((e, index) => (
-        <div key={index}>{index + 1 + ". " + e.course.name.toString()}</div>
+        <div
+          key={index}
+          className="border rounded-2xl p-1 my-1 bg-white drop-shadow-md"
+        >
+          {index + 1 + ". " + e.course.name}
+        </div>
       ));
     },
     enableSorting: false,
   },
   {
     accessorKey: "office",
-    accessorFn: ({ TrainingOffice }) =>
-      TrainingOffice.map(({ office }) => office.acronym),
-    header: "Office",
-    cell: ({ row }) => {
-      return row.original.TrainingOffice.length > 0 ? (
-        row.original.TrainingOffice.map((e, index) => (
-          <TooltipProvider key={index}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div>{index + 1 + ". " + e.office.acronym.toString()}</div>
-              </TooltipTrigger>
-              <TooltipContent>{e.office.name}</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        ))
-      ) : (
-        <div>Mixed Training</div>
-      );
-    },
-    enableSorting: false,
+    accessorFn: ({ requestingOffice }) =>
+      requestingOffice.name + " (" + requestingOffice.acronym + ")",
+    header: "Requesting Office",
+    // enableSorting: false,
   },
   {
     accessorKey: "venue",
@@ -80,38 +77,133 @@ export const columns: ColumnDef<Training>[] = [
   },
   {
     accessorKey: "startDate",
-    accessorFn: ({ startDate }) => format(startDate, "yyyy-LLLL-dd"),
+    accessorFn: ({ startDate }) => (startDate ? startDate : "No Date"),
     header: "Start Date",
+    cell: ({ row }) => {
+      return (
+        <div className="text-center">
+          {format(row.original.startDate, "LLLL dd, yyyy")}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "endDate",
-    accessorFn: ({ endDate }) => format(endDate, "yyyy-LLLL-dd"),
+    accessorFn: ({ endDate }) => (endDate ? endDate : "No Date"),
     header: "End Date",
+    cell: ({ row }) => {
+      return (
+        <div className="text-center">
+          {format(row.original.endDate, "LLLL dd, yyyy")}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "pax",
-    header: "Pax",
+    header: "No. of Participants",
+    cell: ({ row }) => {
+      return <div className="text-center">{row.original.pax}</div>;
+    },
   },
   {
     accessorKey: "contactPerson",
     header: "Contact Person",
+    // enableSorting: false,
+    cell: ({ row }) => {
+      return (
+        <div>
+          <div className="text-center">{row.original.contactPerson}</div>
+          <div className="text-center">{row.original.contactNumber}</div>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "remarks",
+    header: "Remarks",
     enableSorting: false,
   },
   {
-    accessorKey: "contactNumber",
-    header: "Contact Number",
-    enableSorting: false,
+    accessorFn: ({ startDate, endDate, TrainingDocuments, status }) => {
+      if (status === "Canceled") {
+        return "Canceled";
+      }
+
+      const currentDate = new Date();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+
+      const isOngoing = currentDate >= start && currentDate <= end;
+      const isCompleted = currentDate > end;
+      const hasPendingDocuments = TrainingDocuments.some(
+        ({ afterActivityReport }) => !afterActivityReport
+      );
+
+      const result = [];
+
+      if (isOngoing) {
+        result.push("Ongoing");
+      } else if (isCompleted) {
+        result.push("Completed");
+        if (hasPendingDocuments) {
+          result.push("Incomplete Documents");
+        }
+      } else {
+        result.push("Waiting");
+      }
+
+      return result.join(", ");
+    },
+
+    header: "Status",
+    cell: ({ row }) => {
+      const currentDate = new Date();
+      const startDate = new Date(row.original.startDate);
+      const endDate = new Date(row.original.endDate);
+
+      return row.original.status == "Canceled" ? (
+        <div className="flex flex-wrap gap-2">
+          <div className="bg-red-500 text-white px-2 py-1 rounded-2xl whitespace-nowrap shadow-md">
+            Canceled
+          </div>
+        </div>
+      ) : currentDate >= startDate && currentDate <= endDate ? (
+        <div className="flex flex-wrap gap-2">
+          <span className="bg-blue-500 text-white px-2 py-1 rounded-2xl whitespace-nowrap shadow-md">
+            Ongoing
+          </span>
+        </div>
+      ) : endDate < currentDate ? (
+        <div className="flex flex-wrap gap-2">
+          <span className="bg-green-500 text-white px-2 py-1 rounded-2xl whitespace-nowrap shadow-md">
+            Completed
+          </span>
+          {row.original.TrainingDocuments.length > 0 ? (
+            ""
+          ) : (
+            <span className="bg-red-500 text-white px-2 py-1 rounded-2xl whitespace-nowrap shadow-md">
+              Incomplete Documents
+            </span>
+          )}
+          {/* red 700 for cancel */}
+        </div>
+      ) : (
+        <span className="bg-gray-500 text-white px-2 py-1 rounded-2xl shadow-md">
+          Waiting
+        </span>
+      );
+    },
   },
   {
     accessorKey: "id",
     header: "View",
     cell: ({ row }) => (
-      <Link
-        href={`/training/${row.original.id}`}
-        className="text-blue-500 underline"
-      >
-        View
-      </Link>
+      <div className="flex justify-center">
+        <Button className="bg-gray-500 text-white">
+          <Link href={`/training/${row.original.id}`}>View</Link>
+        </Button>
+      </div>
     ),
   },
 ];

@@ -16,7 +16,6 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -40,8 +39,7 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
-ENV DATABASE_URL "mysql://Research&Planning:Planning_Forever_2022@192.168.1.69:3306/CDRRMD-cen-sys"
-ENV URL "http://localhost:3001"
+
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -51,8 +49,8 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+RUN mkdir -p .next /app/uploads /app/public/uploads
+RUN chown nextjs:nodejs .next /app/uploads /app/public/uploads
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing

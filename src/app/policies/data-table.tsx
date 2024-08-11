@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -20,16 +22,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ArrowDown, ArrowUp } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
@@ -41,90 +41,89 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [globalFilter, setGlobalFilter] = React.useState("");
   const [sorting, setSorting] = React.useState<SortingState>([
-    { id: "endDate", desc: true },
+    { id: "date_approved", desc: true },
   ]);
+  const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+
   const table = useReactTable({
     data,
     columns,
-    state: {
-      globalFilter,
-      sorting,
-      columnFilters,
-    },
-    enableMultiRowSelection: false,
-    enableSubRowSelection: false,
-    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    getCoreRowModel: getCoreRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
+    state: {
+      sorting,
+      globalFilter,
+      columnFilters,
+    },
   });
 
   return (
     <div>
-      <div className="flex justify-between mb-3 ">
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">Columns Filter</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                    onSelect={(e) => e.preventDefault()}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Button
-            className="ml-2"
-            variant="destructive"
-            onClick={() => {
-              setGlobalFilter("");
-              setColumnFilters([]);
-            }}
-          >
-            Clear Filter
-          </Button>
-        </div>
+      <div className="rounded-2xl border p-4">
+        <div className="flex justify-between">
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">Columns Filter</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                      onSelect={(e) => e.preventDefault()}
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button
+              className="ml-2"
+              variant="destructive"
+              onClick={() => {
+                setGlobalFilter("");
+                setColumnFilters([]);
+              }}
+            >
+              Clear Filter
+            </Button>
+          </div>
 
-        <div className="w-1/4">
-          <Input
-            className="ml-auto"
-            placeholder="Global filter"
-            value={globalFilter ?? ""}
-            onChange={(event) => {
-              setGlobalFilter(event.target.value);
-            }}
-          />
+          <div className="w-1/4">
+            <Input
+              className="ml-auto"
+              placeholder="Global filter"
+              value={globalFilter ?? ""}
+              onChange={(event) => {
+                setGlobalFilter(event.target.value);
+              }}
+            />
+          </div>
         </div>
-      </div>
-      <div className="rounded-2xl border shadow-lg bg-white">
-        <Table className="text-[12px]">
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-black">
+                    <TableHead key={header.id}>
                       <>
                         <div className="flex justify-center">
                           {header.isPlaceholder ? null : (
@@ -141,10 +140,10 @@ export function DataTable<TData, TValue>({
                                 header.column.columnDef.header,
                                 header.getContext()
                               )}
-                              {/* {{
-                                asc: <ArrowUp className="h-4" />,
-                                desc: <ArrowDown className="h-4" />,
-                              }[header.column.getIsSorted() as string] ?? null} */}
+                              {{
+                                asc: <ArrowUp className="ml-2 h-4 w-4" />,
+                                desc: <ArrowDown className="ml-2 h-4 w-4" />,
+                              }[header.column.getIsSorted() as string] ?? null}
                             </div>
                           )}
                         </div>
@@ -172,7 +171,7 @@ export function DataTable<TData, TValue>({
                                 .getColumn(header.id)
                                 ?.setFilterValue(event.target.value)
                             }
-                            className="max-w-sm"
+                            className="w-full"
                           />
                         </div>
                       ) : null}
@@ -211,24 +210,24 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="flex items-end justify-center space-x-2 py-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );

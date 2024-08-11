@@ -42,7 +42,9 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState("");
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([
+    { id: "Serial", desc: false },
+  ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
@@ -61,12 +63,11 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
   });
 
   return (
-    <div>
+    <div className="mb-5">
       <div className="flex justify-between mb-3">
         <div>
           <DropdownMenu>
@@ -119,10 +120,13 @@ export function DataTable<TData, TValue>({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow
+                key={headerGroup.id}
+                className="bg-gray-100 rounded-2xl"
+              >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-black">
                       <>
                         <div className="flex justify-center">
                           {header.isPlaceholder ? null : (
@@ -139,10 +143,10 @@ export function DataTable<TData, TValue>({
                                 header.column.columnDef.header,
                                 header.getContext()
                               )}
-                              {{
+                              {/* {{
                                 asc: <ArrowUp className="ml-2 h-4 w-4" />,
                                 desc: <ArrowDown className="ml-2 h-4 w-4" />,
-                              }[header.column.getIsSorted() as string] ?? null}
+                              }[header.column.getIsSorted() as string] ?? null} */}
                             </div>
                           )}
                         </div>
