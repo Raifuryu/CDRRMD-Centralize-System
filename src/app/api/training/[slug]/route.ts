@@ -44,11 +44,13 @@ export async function POST(request: Request) {
     where: {
       firstName: body.findFirst,
       lastName: body.lastName,
-      birthDate: body.birthDate,
     },
   });
 
-  if (existingData) {
+  if (
+    existingData?.lastName === body.lastName &&
+    existingData?.firstName === body.firstName
+  ) {
     return Response.json({ message: "Data Already Exists", success: false });
   }
 
@@ -189,6 +191,7 @@ export async function PUT(req: NextRequest) {
       const id = (formData.get("id") as string).replace(/"/g, "").trim();
       const venue = (formData.get("venue") as string).replace(/"/g, "").trim();
       const date = formData.get("date") as string;
+      const pax = (formData.get("pax") as string).replace(/"/g, "").trim();
       const contactPerson = (formData.get("contactPerson") as string)
         .replace(/"/g, "")
         .trim();
@@ -212,18 +215,6 @@ export async function PUT(req: NextRequest) {
       // Directory path for file uploads
       const dirPath = path.join(process.cwd(), `public/uploads/training/${id}`);
       await fs.mkdir(dirPath, { recursive: true });
-
-      exec(`chown -R nextjs:nodejs ${dirPath}`, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error changing ownership: ${error.message}`);
-          return;
-        }
-        if (stderr) {
-          console.error(`stderr: ${stderr}`);
-          return;
-        }
-        console.log(`stdout: ${stdout}`);
-      });
 
       // Handle after activity report file if provided
       if (afterActivityReport) {
@@ -292,6 +283,7 @@ export async function PUT(req: NextRequest) {
           venue: venue,
           startDate: startDate,
           endDate: endDate,
+          pax: parseInt(pax),
           contactPerson: contactPerson,
           contactNumber: contactNumber,
           remarks: remarks,

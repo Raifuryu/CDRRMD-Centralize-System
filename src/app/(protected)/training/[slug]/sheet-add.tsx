@@ -90,7 +90,7 @@ export default function SheetForm({
       PersonAddress: {
         partialAddress: "",
         sitio: "",
-        barangay: "",
+        barangay: "1",
       },
     },
   });

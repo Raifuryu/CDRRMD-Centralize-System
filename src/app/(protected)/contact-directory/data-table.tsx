@@ -292,10 +292,10 @@ export function DataTable<TData, TValue>({
       <div className="rounded-2xl border p-4 w-3/4 mr-2">
         <div className="flex justify-between">
           <div>
-            <Switch
+            {/* <Switch
               checked={showPersonTable}
               onClick={() => setShowTablePerson(!showPersonTable)}
-            />
+            /> */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline">Columns Filter</Button>

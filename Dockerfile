@@ -51,6 +51,7 @@ COPY --from=builder /app/public ./public
 # Set the correct permission for prerender cache
 RUN mkdir -p .next /app/uploads /app/public/uploads
 RUN chown nextjs:nodejs .next /app/uploads /app/public/uploads
+RUN chmod -R 777 /app/public/uploads
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing

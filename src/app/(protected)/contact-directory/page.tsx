@@ -1,16 +1,9 @@
 import prisma from "@/lib/prisma";
 import { columns } from "./person-columns";
 import { DataTable } from "./data-table";
-import { GetServerSideProps } from 'next';
 
-interface DirectoryPageProps {
-  directoryData: any;
-  officeData: any;
-  tagData: any;
-}
-
-export const getServerSideProps: GetServerSideProps<DirectoryPageProps> = async () => {
-  const directoryData = await prisma.person.findMany({
+const getDirectoryData = async () => {
+  const data = await prisma.person.findMany({
     include: {
       office: true,
       PhoneNumber: true,
@@ -23,19 +16,26 @@ export const getServerSideProps: GetServerSideProps<DirectoryPageProps> = async 
     },
   });
 
-  const officeData = await prisma.office.findMany({});
-  const tagData = await prisma.tag.findMany({});
+  return Response.json(data).json();
+};
 
-  return {
-    props: {
-      directoryData,
-      officeData,
-      tagData,
-    },
-  };
-}
+const getOfficeData = async () => {
+  const data = await prisma.office.findMany({});
 
-const DirectoryPage: React.FC<DirectoryPageProps> = ({ directoryData, officeData, tagData }) => {
+  return Response.json(data).json();
+};
+
+const getTagData = async () => {
+  const data = await prisma.tag.findMany({});
+
+  return Response.json(data).json();
+};
+
+export default async function DirectoryPage() {
+  const directoryData = await getDirectoryData();
+  const officeData = await getOfficeData();
+  const tagData = await getTagData();
+
   return (
     <main className="h-screen">
       <DataTable
@@ -47,5 +47,3 @@ const DirectoryPage: React.FC<DirectoryPageProps> = ({ directoryData, officeData
     </main>
   );
 }
-
-export default DirectoryPage;
