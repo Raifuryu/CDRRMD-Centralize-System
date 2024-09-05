@@ -8,6 +8,11 @@
 
 # testing
 /coverage
+/__test__
+
+# public directories
+/public/
+/uploads/
 
 # next.js
 /.next/

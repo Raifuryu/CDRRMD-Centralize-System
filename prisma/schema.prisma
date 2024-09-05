@@ -13,30 +13,196 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Person Related
 model Person {
-  id            Int                  @id @default(autoincrement())
-  firstName     String               @db.VarChar(255)
-  middleName    String?              @db.VarChar(255)
-  lastName      String               @db.VarChar(255)
-  extensionName String?              @db.VarChar(255)
-  office        Office               @relation(fields: [officeId], references: [id])
-  officeId      Int
-  createdAt     DateTime             @default(now())
-  updatedAt     DateTime             @updatedAt
-  phoneNumber   PersonPhoneNumber[]
-  emailAddress  PersonEmailAddress[]
-  personTag     PersonTag[]
+  id                   Int                    @id @default(autoincrement())
+  firstName            String                 @db.VarChar(255)
+  middleName           String?                @db.VarChar(255)
+  lastName             String                 @db.VarChar(255)
+  extensionName        String?                @db.VarChar(255)
+  sex                  String?
+  office               Office                 @relation(fields: [officeId], references: [id])
+  officeId             Int
+  birthDate            DateTime?
+  civilStatus          String                 @default("Single")
+  bloodtype            String                 @default("Uknown")
+  isLGBTQ              Boolean                @default(false)
+  isPWD                Boolean                @default(false)
+  profession           String                 @default("Not Applicable")
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  PhoneNumber          PersonPhoneNumber[]
+  EmailAddress         PersonEmailAddress[]
+  PersonTag            PersonTag[]
+  PersonAccount        Account[]
+  PersonCategory       PersonCategory[]
+  PersonTraining       PersonTraining?
+  Personnel            Personnel[]
+  PersonAddress        PersonAddress[]
+  TrainingParticipants TrainingParticipants[]
 }
 
-model Office {
-  id         Int      @id @default(autoincrement())
-  barangay   Barangay @relation(fields: [barangayId], references: [id])
-  barangayId Int
-  name       String
-  acronym    String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  Person     Person[]
+model PersonTraining {
+  person            Person            @relation(fields: [id], references: [id])
+  id                Int               @id
+  host              String
+  name              String
+  dateOfTraining    DateTime
+  trainingHours     Int
+  fileName          String
+  serialNumber      String
+  certificateStatus CertificateStatus
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+// model PersonAdditionalInformation {
+//   personId    Person   @relation(fields: [id], references: [id])
+//   id          Int      @id
+//   birthDate   DateTime
+//   civilStatus String   @default("Single")
+//   bloodtype   String   @default("Uknown")
+//   isLGBTQ     Boolean  @default(false)
+//   isPWD       Boolean  @default(false)
+//   profession  String   @default("Not Applicable")
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+model PersonAddress {
+  id             Int      @id @default(autoincrement())
+  person         Person   @relation(fields: [personId], references: [id])
+  personId       Int
+  barangay       Barangay @relation(fields: [barangayId], references: [id])
+  barangayId     Int
+  sitio          String?
+  partialAddress String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+enum Gender {
+  Male
+  Female
+}
+
+model Personnel {
+  id                   Int                   @id @default(autoincrement())
+  person               Person                @relation(fields: [personId], references: [id])
+  personId             Int
+  dateOfBirth          DateTime
+  placeOfBirth         String                @db.VarChar(255)
+  civilStatus          String
+  height               Float
+  weight               Float
+  bloodType            String
+  gsis                 String?               @db.VarChar(255)
+  pagibig              String                @db.VarChar(255)
+  philhealth           String                @db.VarChar(255)
+  sss                  String?               @db.VarChar(255)
+  tin                  String                @db.VarChar(255)
+  agencyEmployeeNumber String?               @db.VarChar(255)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  PersonnelEmployment  PersonnelEmployment[]
+  EmploymentHistory    EmploymentHistory[]
+}
+
+model PersonnelEmployment {
+  id                  Int               @id @default(autoincrement())
+  personnel           Personnel         @relation(fields: [personnelId], references: [id])
+  personnelId         Int
+  division            String?
+  unit                String?
+  section             String?
+  employmentType      EmploymentType
+  position            String
+  employmentHistory   EmploymentHistory @relation(fields: [employmentHistoryId], references: [id])
+  employmentHistoryId Int
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+}
+
+enum EmploymentType {
+  Contract
+  Permanent
+}
+
+model EmploymentHistory {
+  id                  Int                   @id @default(autoincrement())
+  personnel           Personnel             @relation(fields: [personnelId], references: [id])
+  personnelId         Int
+  hireDate            DateTime
+  terminationDate     DateTime?
+  reason              String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  PersonnelEmployment PersonnelEmployment[]
+}
+
+model PersonCategory {
+  person    Person   @relation(fields: [id], references: [id])
+  id        Int      @id @unique
+  category  Category
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Category {
+  Personnel
+}
+
+enum CertificateStatus {
+  Completion
+  Participation
+  Attendance
+}
+
+model Division {
+  id        Int      @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Unit {
+  id        Int      @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Section {
+  id        Int      @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum AddressType {
+  Permanent
+  Residential
+}
+
+model Account {
+  id                Int                 @id @default(autoincrement())
+  person            Person              @relation(fields: [personId], references: [id])
+  personId          Int
+  username          String              @unique
+  password          String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  PersonAccountRole PersonAccountRole[]
+}
+
+model PersonAccountRole {
+  id        Int      @id @default(autoincrement())
+  Account   Account  @relation(fields: [AccountId], references: [id])
+  AccountId Int
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PersonTag {
@@ -71,23 +237,55 @@ model PersonEmailAddress {
   updatedAt DateTime @updatedAt
 }
 
-model Tag {
-  id        Int         @id @default(autoincrement())
-  name      String      @db.VarChar(255)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  PersonTag PersonTag[]
+// Office Related
+model Office {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  acronym            String
+  address            String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  Person             Person[]
+  OfficePhoneNumber  OfficePhoneNumber[]
+  OfficeEmailAddress OfficeEmailAddress[]
+  OfficeTag          OfficeTag[]
+  TrainingHost       TrainingHost[]
+  Training           Training[]
 }
 
-model Status {
-  id           Int                  @id @default(autoincrement())
-  name         String
-  createdAt    DateTime             @default(now())
-  updatedAt    DateTime             @updatedAt
-  PhoneNumber  PersonPhoneNumber[]
-  EmailAddress PersonEmailAddress[]
+model OfficePhoneNumber {
+  id        Int      @id @default(autoincrement())
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  number    String   @db.VarChar(255)
+  status    Status   @relation(fields: [statusId], references: [id])
+  statusId  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+model OfficeEmailAddress {
+  id        Int      @id @default(autoincrement())
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  email     String   @db.VarChar(255)
+  status    Status   @relation(fields: [statusId], references: [id])
+  statusId  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OfficeTag {
+  id        Int      @id @default(autoincrement())
+  office    Office   @relation(fields: [officeId], references: [id])
+  officeId  Int
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Address
 model Municipality {
   id        Int      @id @default(autoincrement())
   name      String
@@ -108,55 +306,205 @@ model City {
 }
 
 model Barangay {
-  id                     Int                      @id @default(autoincrement())
-  city                   City                     @relation(fields: [cityId], references: [id])
-  cityId                 Int
-  name                   String
-  createdAt              DateTime                 @default(now())
-  updatedAt              DateTime                 @updatedAt
-  Office                 Office[]
-  CriticalInfrastructure CriticalInfrastructure[]
-  Sitio                  Sitio[]
+  id            Int             @id @default(autoincrement())
+  city          City            @relation(fields: [cityId], references: [id])
+  cityId        Int
+  name          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  PersonAddress PersonAddress[]
 }
 
-model Sitio {
-  id         Int      @id @default(autoincrement())
-  barangay   Barangay @relation(fields: [barangayId], references: [id])
-  barangayId Int
-  name       String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  Street     Street[]
-}
+// model Sitio {
+//   id         Int      @id @default(autoincrement())
+//   barangay   Barangay @relation(fields: [barangayId], references: [id])
+//   barangayId Int
+//   name       String
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+//   Street     Street[]
+// }
 
-model Street {
-  id          Int      @id @default(autoincrement())
-  sitio       Sitio    @relation(fields: [sitioId], references: [id])
-  sitioId     Int
-  houseNumber String
-  name        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
+// model Street {
+//   id          Int      @id @default(autoincrement())
+//   sitio       Sitio    @relation(fields: [sitioId], references: [id])
+//   sitioId     Int
+//   houseNumber String
+//   name        String
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
 
 // Critical Infrastructure
 model CriticalInfrastructure {
+  id             Int      @id @default(autoincrement())
+  category       String
+  name           String
+  barangay       String
+  inspectionDate String
+  status         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model EvacuationCenter {
+  id                 Int    @id @default(autoincrement())
+  barangay           String
+  sitio              String
+  name               String
+  isAssessed         String
+  haveMOA            String
+  onCMP              String
+  governmentOwned    String
+  type               String
+  individualCapacity String
+  familyCapacity     String
+  latitude           String
+  longitude          String
+}
+
+model CriticalInfrastructureCategory {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TrainingHost {
   id         Int      @id @default(autoincrement())
-  barangay   Barangay @relation(fields: [barangayId], references: [id])
-  barangayId Int
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  name       String
-  longitude  String
-  latitude   String
+  trainer    Office   @relation(fields: [trainerId], references: [id])
+  trainerId  Int
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  trainingId Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
-model Category {
-  id                     Int                      @id @default(autoincrement())
-  name                   String
-  createdAt              DateTime                 @default(now())
-  updatedAt              DateTime                 @updatedAt
-  CriticalInfrastructure CriticalInfrastructure[]
+// Training
+model Training {
+  id                   Int                    @id @default(autoincrement())
+  venue                String?
+  startDate            DateTime?
+  endDate              DateTime?
+  daysOfTraining       Int?
+  pax                  Int?
+  remarks              String?
+  requestingOffice     Office                 @relation(fields: [requestingOfficeId], references: [id])
+  requestingOfficeId   Int
+  contactPerson        String?
+  contactNumber        String?
+  status               String                 @default("Active")
+  batchNumber          Int
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  TrainingCourse       TrainingCourse[]
+  TrainingHost         TrainingHost[]
+  TrainingParticipants TrainingParticipants[]
+  TrainingDocuments    TrainingDocuments[]
 }
+
+model TrainingDocuments {
+  Training              Training @relation(fields: [id], references: [id], onDelete: Cascade)
+  id                    Int      @id
+  afterActivityReport   Boolean  @default(false)
+  documentation         Boolean  @default(false)
+  numberOfDocumentaions Int      @default(0)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model TrainingParticipants {
+  id           Int            @id @default(autoincrement())
+  training     Training       @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  trainingId   Int
+  person       Person         @relation(fields: [personId], references: [id])
+  personId     Int
+  status       String         @default("Active")
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  UniqueSerial UniqueSerial[]
+}
+
+model UniqueSerial {
+  id                Int                  @id @default(autoincrement())
+  participant       TrainingParticipants @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  participantId     Int
+  host              String
+  year              String
+  batchNumber       Int
+  participantNumber Int
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+}
+
+model TrainingCourse {
+  id         Int      @id @default(autoincrement())
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  trainingId Int
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Course {
+  id             Int              @id @default(autoincrement())
+  name           String
+  acronym        String
+  description    String?          @db.Text
+  type           String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  TrainingCourse TrainingCourse[]
+}
+
+// Policies
+
+model Policies {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.Text
+  date_approved String?
+  category      String
+  type          String
+  policy_number String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// Misc.
+model Role {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  description       String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  PersonAccountRole PersonAccountRole[]
+}
+
+model Tag {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(255)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  PersonTag PersonTag[]
+  OfficeTag OfficeTag[]
+}
+
+model Status {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  phoneNumber        PersonPhoneNumber[]
+  emailAddress       PersonEmailAddress[]
+  officePhoneNumber  OfficePhoneNumber[]
+  officeEmailAddress OfficeEmailAddress[]
+}
+
+// model CriticalInfrastructureStatus {
+//   id                     Int                      @id @default(autoincrement())
+//   name                   String
+//   createdAt              DateTime                 @default(now())
+//   updatedAt              DateTime                 @updatedAt
+//   criticalInfrastructure CriticalInfrastructure[]
+// }

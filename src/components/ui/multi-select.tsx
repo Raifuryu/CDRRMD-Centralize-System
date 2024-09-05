@@ -120,7 +120,11 @@ const MultiSelectFormField = React.forwardRef<
     };
 
     return (
-      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+      <Popover
+        modal={true}
+        open={isPopoverOpen}
+        onOpenChange={setIsPopoverOpen}
+      >
         <PopoverTrigger asChild>
           <Button
             ref={ref}
@@ -188,7 +192,7 @@ const MultiSelectFormField = React.forwardRef<
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-[200px] p-0 drop-shadow-sm"
+          className="w-full p-0 drop-shadow-sm"
           align="start"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
           onInteractOutside={(event) => {
