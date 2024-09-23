@@ -235,6 +235,15 @@ export async function PUT(req: NextRequest) {
             id: parseInt(id),
           },
         });
+
+        await prisma.training.update({
+          where: {
+            id: parseInt(id),
+          },
+          data: {
+            status: "Completed",
+          },
+        });
       }
 
       // Handle documentation files if provided
