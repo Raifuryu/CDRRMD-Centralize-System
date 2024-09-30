@@ -232,14 +232,16 @@ export function Statistics({ courseData }: { courseData: CourseData[] }) {
         <div className="grid gap-2">
           <MonthlyCourseChart />
         </div>
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>Training Breakdown</AccordionTrigger>
-            <AccordionContent>
-              <DataTable data={trainingData} columns={columns} />
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <div className="mt-5 mb-5">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Training Breakdown</AccordionTrigger>
+              <AccordionContent>
+                <DataTable data={trainingData} columns={columns} />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
       </div>
     </div>
   );

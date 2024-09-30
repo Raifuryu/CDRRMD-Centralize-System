@@ -18,15 +18,15 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A stacked area chart";
+export const description = "A stacked area chart with expand stacking";
 
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+  { month: "January", desktop: 186, mobile: 80, other: 45 },
+  { month: "February", desktop: 305, mobile: 200, other: 100 },
+  { month: "March", desktop: 237, mobile: 120, other: 150 },
+  { month: "April", desktop: 73, mobile: 190, other: 50 },
+  { month: "May", desktop: 209, mobile: 130, other: 100 },
+  { month: "June", desktop: 214, mobile: 140, other: 160 },
 ];
 
 const chartConfig = {
@@ -38,16 +38,18 @@ const chartConfig = {
     label: "Mobile",
     color: "hsl(var(--chart-2))",
   },
+  other: {
+    label: "Other",
+    color: "hsl(var(--chart-3))",
+  },
 } satisfies ChartConfig;
 
 export function TrendChart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
-        <CardDescription>
-          Showing total visitors for the last 6 months
-        </CardDescription>
+        <CardTitle>Trend Chart</CardTitle>
+        <CardDescription>Showing 3 years of training trend</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -69,7 +71,15 @@ export function TrendChart() {
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" />}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+            <Area
+              dataKey="other"
+              type="natural"
+              fill="var(--color-other)"
+              fillOpacity={0.1}
+              stroke="var(--color-other)"
+              stackId="a"
             />
             <Area
               dataKey="mobile"

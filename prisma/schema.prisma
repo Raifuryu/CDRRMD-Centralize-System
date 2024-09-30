@@ -370,6 +370,7 @@ model CriticalInfrastructureCategory {
   updatedAt DateTime @updatedAt
 }
 
+// Training
 model TrainingHost {
   id         Int      @id @default(autoincrement())
   trainer    Office   @relation(fields: [trainerId], references: [id])
@@ -380,7 +381,6 @@ model TrainingHost {
   updatedAt  DateTime @updatedAt
 }
 
-// Training
 model Training {
   id                   Int                    @id @default(autoincrement())
   venue                String?
