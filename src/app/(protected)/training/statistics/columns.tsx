@@ -60,6 +60,9 @@ export const columns: ColumnDef<TrainingData>[] = [
   {
     accessorFn: ({ name }) => name,
     header: "Course",
+    cell: ({ row }) => (
+      <div className="flex justify-end">{row.original.name}</div>
+    ),
   },
   {
     accessorFn: ({ TrainingCourse }) => {
@@ -70,6 +73,13 @@ export const columns: ColumnDef<TrainingData>[] = [
       return pendingTrainingCount;
     },
     header: "Pending",
+    cell: ({ row }) => {
+      let pendingTrainingCount = 0;
+      row.original.TrainingCourse.map(({ training }) => {
+        training.status === "Active" ? (pendingTrainingCount += 1) : null;
+      });
+      return <div className="flex justify-center">{pendingTrainingCount}</div>;
+    },
   },
   {
     accessorFn: ({ TrainingCourse }) => {
@@ -80,6 +90,15 @@ export const columns: ColumnDef<TrainingData>[] = [
       return completedTrainingCount;
     },
     header: "Completed",
+    cell: ({ row }) => {
+      let completedTrainingCount = 0;
+      row.original.TrainingCourse.map(({ training }) => {
+        training.status === "Completed" ? (completedTrainingCount += 1) : null;
+      });
+      return (
+        <div className="flex justify-center">{completedTrainingCount}</div>
+      );
+    },
   },
   {
     accessorFn: ({ TrainingCourse }) => {
@@ -90,10 +109,26 @@ export const columns: ColumnDef<TrainingData>[] = [
       return completedTrainingCount;
     },
     header: "Canceled",
+    cell: ({ row }) => {
+      let completedTrainingCount = 0;
+      row.original.TrainingCourse.map(({ training }) => {
+        training.status === "Canceled" ? (completedTrainingCount += 1) : null;
+      });
+      return (
+        <div className="flex justify-center">{completedTrainingCount}</div>
+      );
+    },
   },
   {
-    accessorKey: "_count.TrainingCourse",
+    accessorKey: "TrainingCourse.length",
     header: "Total Requests",
+    cell: ({ row }) => {
+      return (
+        <div className="flex justify-center">
+          {row.original.TrainingCourse.length}
+        </div>
+      );
+    },
   },
   {
     accessorFn: ({ TrainingCourse }) => {
@@ -104,5 +139,12 @@ export const columns: ColumnDef<TrainingData>[] = [
       return totalParticipants;
     },
     header: "Total Participants",
+    cell: ({ row }) => {
+      let totalParticipants = 0;
+      row.original.TrainingCourse.map(({ training }) => {
+        totalParticipants += training.TrainingParticipants.length;
+      });
+      return <div className="flex justify-center">{totalParticipants}</div>;
+    },
   },
 ];

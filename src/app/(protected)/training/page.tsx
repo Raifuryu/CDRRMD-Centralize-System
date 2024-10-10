@@ -4,6 +4,8 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -66,7 +68,16 @@ export default async function Page() {
 
   return (
     <main className="m-10">
-      <h6 className="mt-5 ml-10">Training - Information Management System</h6>
+      <div className="flex justify-between my-5 ml-10">
+        <div>
+          <h6>Training - Information Management System</h6>
+        </div>
+        <div>
+          <Button asChild>
+            <Link href="./training/statistics">Statistics</Link>
+          </Button>
+        </div>
+      </div>
       <div className="flex items-center justify-center border rounded-2xl shadow-md bg-gray-100">
         <div className="m-5">
           <DataTable columns={columns} data={trainingData} />
