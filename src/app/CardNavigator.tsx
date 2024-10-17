@@ -13,6 +13,7 @@ type Card = {
   href: string;
   title: string;
   description: string;
+  target: string;
 };
 
 // Step 2: Define the type for cardData as an array of card objects
@@ -24,7 +25,7 @@ const CardNavigator: React.FC<CardNavigatorProps> = ({ cardData }) => {
   return (
     <div className="flex flex-wrap justify-center items-center">
       {cardData.map((card, index) => (
-        <Link key={index} href={card.href}>
+        <Link key={index} href={card.href} target={card.target}>
           <UICard className="w-[350px]">
             <CardHeader>
               <CardTitle>{card.title}</CardTitle>

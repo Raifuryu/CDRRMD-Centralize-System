@@ -281,7 +281,7 @@ export default function View({
       formData.append("id", trainingData.id.toString());
     }
 
-    console.log(formData);
+    // console.log(formData);
 
     try {
       const response = await fetch(`/api/training/${trainingData.id}`, {

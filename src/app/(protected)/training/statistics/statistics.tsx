@@ -33,6 +33,7 @@ import { CourseChart } from "./courseChart";
 import { TrendChart } from "./trendChart";
 import { MonthlyCourseChart } from "./monthlyCourseChart";
 import Link from "next/link";
+import { ChartPie } from "./pieChart";
 
 type CourseData = z.infer<typeof CourseSchema>;
 // type TrainingData = z.infer<typeof TrainingSchema>;
@@ -188,15 +189,11 @@ export function Statistics({
   );
 
   const searchFunction = () => {
-    // console.log("Course Date: ", courseFilter || "All");
-    console.log("Start Date: ", format(startDate || new Date(), "MM-dd-yyyy"));
-    console.log("End Date: ", format(endDate || new Date(), "MM-dd-yyyy"));
     const newData = filterCoursesByDate(
       trainingData,
       startDate || new Date(new Date().getFullYear(), 0, 1),
       endDate || new Date()
     );
-    console.log(newData);
     setTrainingData(newData);
   };
 
@@ -243,7 +240,7 @@ export function Statistics({
   }, []);
 
   const getData = async () => {
-    const res = await fetch("http://localhost:3000/api/training/statistics", {
+    const res = await fetch("/api/training/statistics", {
       // next: { revalidate: 60 },
       method: "GET",
       headers: {
@@ -350,6 +347,7 @@ export function Statistics({
           <MonthlyCourseChart />
         </div> */}
         <div className="mt-5 mb-5">
+          {/* <ChartPie data={} filters={} /> */}
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger>Training Breakdown</AccordionTrigger>

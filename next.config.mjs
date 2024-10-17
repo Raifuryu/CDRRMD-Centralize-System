@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
+  output: 'standalone',
   images: {
     remotePatterns: [
       {
@@ -11,3 +11,15 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
+
+// module.exports = {
+//   output: "standalone",
+//   images: {
+//     remotePatterns: [
+//       {
+//         hostname: "github.com",
+//       },
+//     ],
+//   },
+// };

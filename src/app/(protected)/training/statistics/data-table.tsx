@@ -32,7 +32,6 @@ export function DataTable<TData, TValue>({
     { id: "TrainingCourse_length", desc: true },
   ]);
 
-  console.log(sorting);
   const table = useReactTable({
     data,
     columns,
@@ -51,7 +50,6 @@ export function DataTable<TData, TValue>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
-                console.log(header)
                 return (
                   <TableHead key={header.id} className="text-black">
                     <>

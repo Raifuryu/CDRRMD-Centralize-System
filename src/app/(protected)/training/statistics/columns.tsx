@@ -77,6 +77,7 @@ export const columns: ColumnDef<TrainingData>[] = [
       let pendingTrainingCount = 0;
       row.original.TrainingCourse.map(({ training }) => {
         training.status === "Active" ? (pendingTrainingCount += 1) : null;
+        console.log("Pending" + pendingTrainingCount);
       });
       return <div className="flex justify-center">{pendingTrainingCount}</div>;
     },
@@ -86,6 +87,7 @@ export const columns: ColumnDef<TrainingData>[] = [
       let completedTrainingCount = 0;
       TrainingCourse.map(({ training }) => {
         training.status === "Completed" ? (completedTrainingCount += 1) : null;
+        console.log("Completed:" + completedTrainingCount);
       });
       return completedTrainingCount;
     },

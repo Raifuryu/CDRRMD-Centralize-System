@@ -13,13 +13,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
 
 interface UserButtonProps {
   user: User;
 }
 
-export default function UserButton({ user }: UserButtonProps) {
+export default async function UserButton({ user }: UserButtonProps) {
+  const session = await auth();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,6 +36,9 @@ export default function UserButton({ user }: UserButtonProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{user.name || "User"}</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {session?.officeName + " || " + session?.officeAcronym || "User"}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild disabled>
