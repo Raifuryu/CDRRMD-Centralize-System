@@ -6,6 +6,9 @@ declare module "next-auth" {
   interface User {
     id: string;
     name: string;
+    officeId: string;
+    officeName: string;
+    officeAcronym: string;
   }
   /**
    * The shape of the account object returned in the OAuth providers' `account` callback,
@@ -17,8 +20,12 @@ declare module "next-auth" {
    * Returned by `useSession`, `auth`, contains information about the active session.
    */
   interface Session {
-    officeName: string;
-    officeAcronym: string;
+    user: {
+      id: string;
+      officeId: string;
+      officeName: string;
+      officeAcronym: string;
+    };
   }
 }
 

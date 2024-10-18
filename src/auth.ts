@@ -3,7 +3,8 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "./lib/prisma";
 import { compare } from "bcryptjs";
-import { cookies } from "next/headers";
+
+export const BASE_PATH = "/api/auth";
 
 const credentialsConfig = CredentialsProvider({
   name: "Credentials",
@@ -48,12 +49,12 @@ const credentialsConfig = CredentialsProvider({
     if (!isPasswordMatch) {
       return null;
     }
-    const oneDay = 24 * 60 * 60 * 1000;
-    // Email is used as the ID
-    // counldn't find a way to add another attribute in user
     return {
-      email: user.personId.toString(),
+      id: user.personId.toString(),
       name: user.person.firstName + " " + user.person.lastName,
+      officeId: user.person.officeId.toString(),
+      officeName: user.person.office.name,
+      officeAcronym: user.person.office.acronym,
     };
   },
 });
@@ -61,27 +62,22 @@ const credentialsConfig = CredentialsProvider({
 const config = {
   providers: [credentialsConfig],
   callbacks: {
+    async jwt({ token, user }) {
+      // If user exists (after successful authentication), add the user ID to the token
+      if (user) {
+        token.id = user.id;
+        token.officeId = user.officeId;
+        token.officeName = user.officeName;
+        token.officeAcronym = user.officeAcronym;
+      }
+      return token;
+    },
+
     async session({ session, token, user }) {
-      const data = await prisma.account.findFirst({
-        where: {
-          id: parseInt(user.email),
-        },
-        include: {
-          person: {
-            include: {
-              office: true,
-            },
-          },
-          PersonAccountRole: {
-            include: {
-              role: true,
-            },
-          },
-        },
-      });
-      console.log(data);
-      session.officeName = data?.person.office.name || "Office";
-      session.officeAcronym = data?.person.office.acronym || "Office";
+      session.user.id = token.id as string;
+      session.user.officeId = token.officeId as string;
+      session.user.officeName = token.officeName as string;
+      session.user.officeAcronym = token.officeAcronym as string;
       console.log(session);
       return session;
     },

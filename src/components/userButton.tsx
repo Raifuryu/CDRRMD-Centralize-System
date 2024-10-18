@@ -35,9 +35,11 @@ export default async function UserButton({ user }: UserButtonProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{user.name || "User"}</DropdownMenuLabel>
-        <DropdownMenuLabel>
-          {session?.officeName + " || " + session?.officeAcronym || "User"}
+        <DropdownMenuLabel className="flex justify-center">
+          {user.name || "User"}
+        </DropdownMenuLabel>
+        <DropdownMenuLabel className="flex justify-center">
+          {session?.user.officeAcronym || "User"}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

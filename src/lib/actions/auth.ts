@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import * as z from "zod";
 import prisma from "@/lib/prisma";
 import { RegisterFormSchema } from "@/schemas/definitions";
-import { signIn, signOut } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export const login = async (value: any) => {
