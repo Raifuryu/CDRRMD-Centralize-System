@@ -1,4 +1,4 @@
-import type { NextAuthConfig } from "next-auth";
+import type { AccountModule, NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "./lib/prisma";
@@ -31,13 +31,15 @@ const credentialsConfig = CredentialsProvider({
             office: true,
           },
         },
-        PersonAccountRole: {
+        AccountModules: {
           include: {
-            role: true,
+            Modules: true,
           },
         },
       },
     });
+
+    console.log(user?.AccountModules);
 
     if (!user) {
       return null;
@@ -52,9 +54,11 @@ const credentialsConfig = CredentialsProvider({
     return {
       id: user.personId.toString(),
       name: user.person.firstName + " " + user.person.lastName,
+      type: user.type,
       officeId: user.person.officeId.toString(),
       officeName: user.person.office.name,
       officeAcronym: user.person.office.acronym,
+      accountModules: user.AccountModules,
     };
   },
 });
@@ -66,19 +70,22 @@ const config = {
       // If user exists (after successful authentication), add the user ID to the token
       if (user) {
         token.id = user.id;
+        token.type = user.type;
         token.officeId = user.officeId;
         token.officeName = user.officeName;
         token.officeAcronym = user.officeAcronym;
+        token.accountModules = user.accountModules;
       }
       return token;
     },
 
     async session({ session, token, user }) {
       session.user.id = token.id as string;
+      session.user.type = token.type as string;
       session.user.officeId = token.officeId as string;
       session.user.officeName = token.officeName as string;
       session.user.officeAcronym = token.officeAcronym as string;
-      console.log(session);
+      session.user.accountModules = token.accountModules as AccountModule[];
       return session;
     },
   },

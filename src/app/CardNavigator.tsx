@@ -9,9 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AccountModule } from "next-auth";
+import { getDccLinks } from "@/lib/links";
 
 // Define a type for a single card object
 type Card = {
+  moduleId: number;
   href: string;
   title: string;
   description: string;
@@ -28,6 +31,7 @@ type CardNavigatorProps = {
   categories: Category[];
   cardData: Record<string, Card[]>;
   externalIp: string;
+  accountModules: AccountModule[];
 };
 
 const extractIP = (url: string): string | null => {
@@ -39,6 +43,7 @@ const CardNavigator: React.FC<CardNavigatorProps> = ({
   categories,
   cardData,
   externalIp,
+  accountModules,
 }) => {
   const [data, setData] = useState(cardData);
 
@@ -110,69 +115,6 @@ const CardNavigator: React.FC<CardNavigatorProps> = ({
       }));
     };
 
-    const getDccLinks = (ip: string): Card[] => [
-      {
-        href: ip + "/ems/entry",
-        title: "EMS System",
-        description: "Emergency Management System",
-        target: "_blank",
-      },
-      {
-        href: ip + "/maps/routing",
-        title: "Vehicle Routing",
-        description: "Vehicle routing system",
-        target: "_blank",
-      },
-      {
-        href: ip + "/ers/dashboard",
-        title: "911 Dashboard",
-        description: "Emergency Response Dashboard",
-        target: "_blank",
-      },
-      {
-        href: ip + "/maps/resource-monitoring",
-        title: "Resource Map",
-        description: "Resource monitoring map",
-        target: "_blank",
-      },
-      {
-        href: ip + "/pages/report",
-        title: "Reports",
-        description: "Incident and response reports",
-        target: "_blank",
-      },
-      {
-        href: ip + "/comcenter2/entry",
-        title: "Comcenter",
-        description: "Communication Center",
-        target: "_blank",
-      },
-      {
-        href: ip + "/logistic/items",
-        title: "Logistics",
-        description: "Logistics system for items management",
-        target: "_blank",
-      },
-      {
-        href: ip + "/weather/login",
-        title: "Weather Watch",
-        description: "Weather monitoring system",
-        target: "_blank",
-      },
-      {
-        href: "https://ororescue911.maps.arcgis.com/apps/webappviewer/index.html?id=0e048db3306d49a18985843702fe9701",
-        title: "River Basins Map",
-        description: "Map of river basins",
-        target: "_blank",
-      },
-      {
-        href: "https://ororescue911.maps.arcgis.com/apps/webappviewer/index.html?id=3e6e8d080e0847f2baf8b668b5755274",
-        title: "Zoning Map",
-        description: "Zoning information map",
-        target: "_blank",
-      },
-    ];
-
     fetchData();
   }, [cardData]);
 
@@ -186,18 +128,29 @@ const CardNavigator: React.FC<CardNavigatorProps> = ({
           <div
             className={`grid grid-cols-3 gap-4 justify-center items-center w-full`}
           >
-            {data[category.name]?.map((card, index) => (
-              <div key={index} className="flex justify-center">
-                <Link href={card.href} target={card.target}>
-                  <UICard className="w-[350px]">
-                    <CardHeader>
-                      <CardTitle>{card.title}</CardTitle>
-                      <CardDescription>{card.description}</CardDescription>
-                    </CardHeader>
-                  </UICard>
-                </Link>
-              </div>
-            ))}
+            {accountModules.find(
+              (module) => module.Modules.category === category.name
+            )
+              ? data[category.name]?.map((card, index) => {
+                  return accountModules.find(
+                    (module) =>
+                      module.moduleId === card.moduleId && module.access
+                  ) ? (
+                    <div key={index} className="flex justify-center">
+                      <Link href={card.href} target={card.target}>
+                        <UICard className="w-[350px]">
+                          <CardHeader>
+                            <CardTitle>{card.title}</CardTitle>
+                            <CardDescription>
+                              {card.description}
+                            </CardDescription>
+                          </CardHeader>
+                        </UICard>
+                      </Link>
+                    </div>
+                  ) : null;
+                })
+              : null}
           </div>
         </div>
       ))}

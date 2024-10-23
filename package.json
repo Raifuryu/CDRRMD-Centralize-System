@@ -42,7 +42,7 @@
     "embla-carousel-react": "^8.1.6",
     "jqwidgets-scripts": "^19.2.0",
     "lucide-react": "^0.363.0",
-    "next": "^14.2.15",
+    "next": "^14.2.16",
     "next-auth": "^5.0.0-beta.22",
     "next-connect": "^1.0.0",
     "react": "^18",

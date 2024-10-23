@@ -6,6 +6,7 @@ import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { auth } from "@/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -61,7 +62,8 @@ const getTrainingData = async () => {
 };
 
 export default async function Page() {
-  const officeId = cookies().get("office")?.value.toString() || "2";
+  const session = await auth();
+  const officeId = session?.user.officeId;
   const courseData = await getCourseData();
   const trainingData = await getTrainingData();
   const officeData = await getOfficeData();
@@ -86,7 +88,7 @@ export default async function Page() {
       <Form
         courseData={courseData}
         officeData={officeData}
-        officeId={officeId}
+        officeId={officeId!}
       />
       {/* {JSON.stringify(session)} */}
     </main>

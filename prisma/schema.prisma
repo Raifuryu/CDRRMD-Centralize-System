@@ -185,24 +185,28 @@ enum AddressType {
 }
 
 model Account {
-  id                Int                 @id @default(autoincrement())
-  person            Person              @relation(fields: [personId], references: [id])
-  personId          Int
-  username          String              @unique
-  password          String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  PersonAccountRole PersonAccountRole[]
+  id             Int              @id @default(autoincrement())
+  person         Person           @relation(fields: [personId], references: [id])
+  personId       Int
+  username       String           @unique
+  password       String
+  type           String           @default("User")
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  AccountModules AccountModules[]
 }
 
-model PersonAccountRole {
+model AccountModules {
   id        Int      @id @default(autoincrement())
-  Account   Account  @relation(fields: [AccountId], references: [id])
-  AccountId Int
-  role      Role     @relation(fields: [roleId], references: [id])
-  roleId    Int
+  Account   Account  @relation(fields: [accountId], references: [id])
+  accountId Int
+  Modules   Modules  @relation(fields: [moduleId], references: [id])
+  moduleId  Int
+  access    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([accountId, moduleId])
 }
 
 model PersonTag {
@@ -472,13 +476,15 @@ model Policies {
 }
 
 // Misc.
-model Role {
-  id                Int                 @id @default(autoincrement())
-  name              String
-  description       String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  PersonAccountRole PersonAccountRole[]
+model Modules {
+  id             Int              @id @default(autoincrement())
+  name           String
+  description    String
+  category       String
+  moduleId       Int
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  AccountModules AccountModules[]
 }
 
 model Tag {

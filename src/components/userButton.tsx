@@ -1,5 +1,5 @@
 import avatarPlaceholder from "@/assets/images/avatar_placeholder.png";
-import { LogOut, Settings } from "lucide-react";
+import { LogOut, Settings, Lock } from "lucide-react";
 import { User } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,34 +43,43 @@ export default async function UserButton({ user }: UserButtonProps) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild disabled>
-            <Link href="/settings">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
+          <DropdownMenuItem asChild>
+            <Link href="/user/settings">
+              <button type="submit" className="flex w-full items-center">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </button>
             </Link>
           </DropdownMenuItem>
           {/* TODO: Show this only for admins */}
-          {/* <DropdownMenuItem asChild>
-                <Link href="/admin">
+          {session?.user.type == "admin" ? (
+            <DropdownMenuItem asChild>
+              <Link href="/admin/settings">
+                <button type="submit" className="flex w-full items-center">
                   <Lock className="mr-2 h-4 w-4" />
                   Admin
-                </Link>
-              </DropdownMenuItem> */}
+                </button>
+              </Link>
+            </DropdownMenuItem>
+          ) : (
+            ""
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           {/* TODO: Add a logout functionality */}
-          <button className="flex w-full items-center">
-            <LogOut className="mr-2 h-4 w-4" />{" "}
-            <form
-              action={async () => {
-                "use server";
-                await signOut();
-              }}
-            >
-              <button type="submit">Sign Out</button>
-            </form>
-          </button>
+          <form
+            className="flex w-full items-center"
+            action={async () => {
+              "use server";
+              await signOut(); // This will be executed on the server side
+            }}
+          >
+            <button type="submit" className="flex w-full items-center">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </button>
+          </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

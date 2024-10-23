@@ -1,4 +1,20 @@
 declare module "next-auth" {
+  type Module = {
+    id: number;
+    name: string;
+    description: string;
+    category: string;
+    moduleId: number;
+  };
+
+  type AccountModule = {
+    id: number;
+    accountId: number;
+    moduleId: number;
+    access: boolean;
+    Modules: Module; // Nested Modules object
+  };
+
   /**
    * The shape of the user object returned in the OAuth providers' `profile` callback,
    * or the second parameter of the `session` callback, when using a database.
@@ -6,9 +22,11 @@ declare module "next-auth" {
   interface User {
     id: string;
     name: string;
+    type: string;
     officeId: string;
     officeName: string;
     officeAcronym: string;
+    accountModules: AccountModule[];
   }
   /**
    * The shape of the account object returned in the OAuth providers' `account` callback,
@@ -22,9 +40,11 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string;
+      type: string;
       officeId: string;
       officeName: string;
       officeAcronym: string;
+      accountModules: AccountModule[];
     };
   }
 }
